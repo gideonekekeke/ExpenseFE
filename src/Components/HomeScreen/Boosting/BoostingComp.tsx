@@ -4,7 +4,7 @@ import BoostProps from "./BoostProps";
 
 const BoostingComp = () => {
 	return (
-		<Container>
+		<Container id='solution'>
 			<h2>
 				Boosting businesses. Today <br /> and tomorrow.
 			</h2>

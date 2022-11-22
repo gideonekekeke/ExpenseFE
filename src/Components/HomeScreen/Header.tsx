@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { AiOutlineMenuFold } from "react-icons/ai";
 import SideBarComp from "./SideBar/SideBarComp";
+import { Link } from "react-scroll";
 
 const Header = () => {
 	const [sideShow, setSideShow] = React.useState(false);
@@ -13,11 +14,21 @@ const Header = () => {
 		<Container>
 			<Logo>Expense-Tracker</Logo>
 			<Navigation>
-				<Nav>Platform</Nav>
-				<Nav>Solution</Nav>
-				<Nav>Customers</Nav>
-				<Nav>Resources</Nav>
-				<Nav>Company</Nav>
+				<Nav offset={-100} smooth={true} duration={500} to='platform'>
+					Platform
+				</Nav>
+				<Nav offset={-100} smooth={true} duration={500} to='solution'>
+					Solution
+				</Nav>
+				<Nav offset={-100} smooth={true} duration={500} to='customer'>
+					Customers
+				</Nav>
+				<Nav offset={-100} smooth={true} duration={500} to='resource'>
+					Resources
+				</Nav>
+				<Nav offset={-100} smooth={true} duration={500} to='company'>
+					Company
+				</Nav>
 			</Navigation>
 			<ButtonHold>
 				<Button bd='1px solid gray' bg='transparent'>
@@ -65,7 +76,7 @@ const Navigation = styled.div`
 		display: none;
 	}
 `;
-const Nav = styled.div`
+const Nav = styled(Link)`
 	margin-left: 10px;
 	margin-right: 10px;
 	transition: all 350ms;

@@ -4,7 +4,7 @@ import { FiExternalLink } from "react-icons/fi";
 
 const Testimonial = () => {
 	return (
-		<Container>
+		<Container id='customer'>
 			<Wrapper>
 				<First>
 					<h4>TESTIMONIALS</h4>

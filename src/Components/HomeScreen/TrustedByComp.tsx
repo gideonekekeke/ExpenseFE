@@ -15,7 +15,7 @@ const TrustedByComp = () => {
 		cssEase: "linear",
 	};
 	return (
-		<Container>
+		<Container id='company'>
 			<h4>Trusted by fastest growing companies</h4>
 			<br />
 

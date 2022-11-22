@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
+import { FaPlay } from "react-icons/fa";
+
 const HeroComp = () => {
 	return (
-		<Container>
+		<Container id='platform'>
 			<Wrapper>
 				<First>
 					<h1>
@@ -15,11 +17,14 @@ const HeroComp = () => {
 						consequuntur.
 					</p>
 					<ButtonHold>
-						<Button bd='1px solid gray' bg='transparent'>
-							Sign In
-						</Button>
 						<Button bd='' bg='#926efc'>
-							Watch Video
+							Book a Demo
+						</Button>
+						<Button bd='1px solid gray' bg='transparent'>
+							<Icons>
+								<FaPlay />
+							</Icons>
+							Watch video
 						</Button>
 					</ButtonHold>
 
@@ -37,6 +42,10 @@ const HeroComp = () => {
 };
 
 export default HeroComp;
+
+const Icons = styled.div`
+	margin-right: 10px;
+`;
 
 const Wrapper = styled.div`
 	margin-top: 20px;
@@ -118,7 +127,7 @@ const Button = styled.button<{ bg: string; bd: string }>`
 	margin-right: 10px;
 
 	height: 40px;
-	width: 120px;
+	width: 150px;
 	background-color: ${(props) => props.bg};
 	display: flex;
 	justify-content: center;

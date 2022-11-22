@@ -4,7 +4,7 @@ import DownCard from "./DownCard";
 
 const DownPutComps = () => {
 	return (
-		<Cont>
+		<Cont id='resource'>
 			<br />
 			<br />
 			<br />
