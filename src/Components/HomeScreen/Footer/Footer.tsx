@@ -102,7 +102,7 @@ const Socials = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	color: #0707b8;
+	color: #926efc;
 	font-size: 1.3rem;
 	margin-top: 30px;
 `;
