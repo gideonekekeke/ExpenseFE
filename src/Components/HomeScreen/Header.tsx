@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { AiOutlineMenuFold } from "react-icons/ai";
+import { FiMenu } from "react-icons/fi";
 import { ImCancelCircle } from "react-icons/im";
 import SideBarComp from "./SideBar/SideBarComp";
 import { Link } from "react-scroll";
@@ -46,7 +46,7 @@ const Header = () => {
 				</Menu>
 			) : (
 				<Menu onClick={toggleSideBar}>
-					<AiOutlineMenuFold />
+					<FiMenu />
 				</Menu>
 			)}
 
