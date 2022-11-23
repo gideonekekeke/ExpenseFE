@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { AiOutlineMenuFold } from "react-icons/ai";
+import { ImCancelCircle } from "react-icons/im";
 import SideBarComp from "./SideBar/SideBarComp";
 import { Link } from "react-scroll";
 
@@ -39,11 +40,17 @@ const Header = () => {
 				</Button>
 			</ButtonHold>
 
-			<Menu onClick={toggleSideBar}>
-				<AiOutlineMenuFold />
-			</Menu>
+			{sideShow ? (
+				<Menu onClick={toggleSideBar}>
+					<ImCancelCircle />
+				</Menu>
+			) : (
+				<Menu onClick={toggleSideBar}>
+					<AiOutlineMenuFold />
+				</Menu>
+			)}
 
-			{sideShow ? <SideBarComp /> : null}
+			{sideShow ? <SideBarComp toggleSideBar={toggleSideBar} /> : null}
 		</Container>
 	);
 };
@@ -71,7 +78,7 @@ const Logo = styled.div`
 const Navigation = styled.div`
 	display: flex;
 
-	@media screen and (max-width: 600px) {
+	@media screen and (max-width: 960px) {
 		margin-right: 10px;
 		display: none;
 	}

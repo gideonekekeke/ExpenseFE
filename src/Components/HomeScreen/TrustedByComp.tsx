@@ -7,12 +7,39 @@ const TrustedByComp = () => {
 	const settings = {
 		dots: true,
 		infinite: true,
-		slidesToShow: 4,
+		slidesToShow: 5,
 		slidesToScroll: 1,
 		autoplay: true,
 		speed: 500,
 		// autoplaySpeed: 5000,
 		cssEase: "linear",
+
+		responsive: [
+			{
+				breakpoint: 1024,
+				settings: {
+					slidesToShow: 3,
+					slidesToScroll: 3,
+					infinite: true,
+					dots: true,
+				},
+			},
+			{
+				breakpoint: 600,
+				settings: {
+					slidesToShow: 2,
+					slidesToScroll: 2,
+					initialSlide: 2,
+				},
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					slidesToShow: 3,
+					slidesToScroll: 1,
+				},
+			},
+		],
 	};
 	return (
 		<Container id='company'>
@@ -21,12 +48,12 @@ const TrustedByComp = () => {
 
 			<Wrapper>
 				<Slider {...settings}>
-					<MainImage src='/assets/t1.svg' />
-					<MainImage src='/assets/t2.svg' />
-					<MainImage src='/assets/t3.svg' />
-					<MainImage src='/assets/t4.svg' />
-					<MainImage src='/assets/t2.svg' />
-					<MainImage src='/assets/t1.svg' />
+					<MainImage src='/assets/company/1.png' />
+					<MainImage src='/assets/company/2.svg' />
+					<MainImage src='/assets/company/3.svg' />
+					<MainImage src='/assets/company/4.svg' />
+					<MainImage src='/assets/company/5.svg' />
+					<MainImage src='/assets/company/8.png' />
 				</Slider>
 			</Wrapper>
 		</Container>
@@ -36,7 +63,14 @@ const TrustedByComp = () => {
 export default TrustedByComp;
 
 const MainImage = styled.img`
-	height: 20px;
+	height: 40px;
+	object-fit: contain;
+	color: white;
+	filter: grayscale(1);
+
+	@media screen and (max-width: 960px) {
+		height: 30px;
+	}
 `;
 
 const ButtonHold = styled.div`

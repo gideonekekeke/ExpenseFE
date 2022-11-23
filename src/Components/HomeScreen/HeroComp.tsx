@@ -34,7 +34,7 @@ const HeroComp = () => {
 					</Rated>
 				</First>
 				<Second>
-					<HeroImage src='/assets/herobg.png' />
+					<HeroImage src='/assets/h2.png' />
 				</Second>
 			</Wrapper>
 		</Container>
@@ -56,12 +56,19 @@ const Wrapper = styled.div`
 	justify-content: center;
 	color: white;
 	padding-bottom: 50px;
-	flex-wrap: wrap;
+
+	@media screen and (max-width: 400px) {
+		/* padding-left: 30px; */
+		flex-direction: column-reverse;
+		align-items: center;
+		flex-wrap: wrap;
+	}
 
 	@media screen and (max-width: 960px) {
 		/* padding-left: 30px; */
 		flex-direction: column-reverse;
 		align-items: center;
+		flex-wrap: nowrap;
 	}
 `;
 
@@ -153,10 +160,9 @@ const Container = styled.div`
 	/* align-items: center; */
 	color: white;
 
-	flex-wrap: wrap;
-
 	@media screen and (max-width: 960px) {
 		/* padding-left: 10px; */
 		flex-direction: column-reverse;
+		flex-wrap: nowrap;
 	}
 `;
