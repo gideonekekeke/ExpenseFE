@@ -55,26 +55,16 @@ const SideBarComp: React.FC<Iprops> = ({ toggleSideBar }) => {
 					to='company'>
 					<Nav>Company</Nav>
 				</NavHold>
-				<NavHold
-					onClick={toggleSideBar}
-					offset={-100}
-					smooth={true}
-					duration={500}
-					to='/'>
+				<Naving onClick={toggleSideBar} to='/auth'>
 					<Nav>Sign In</Nav>
-				</NavHold>
-				<NavHold
-					onClick={toggleSideBar}
-					offset={-100}
-					smooth={true}
-					duration={500}
-					to='/'>
+				</Naving>
+				<Naving onClick={toggleSideBar} to='/auth'>
 					<Nav>
 						<Button bd='none' bg='#926efc'>
 							Get Started
 						</Button>
 					</Nav>
-				</NavHold>
+				</Naving>
 			</Wrapper>
 		</SideDiv>
 	);
@@ -120,6 +110,11 @@ const Button = styled.button<{ bg: string; bd: string }>`
 `;
 
 const NavHold = styled(Link)`
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
+`;
+const Naving = styled(NavLink)`
 	text-decoration: none;
 	color: black;
 	cursor: pointer;
