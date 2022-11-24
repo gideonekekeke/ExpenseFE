@@ -1,11 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { AiOutlineMenuFold } from "react-icons/ai";
+import { FiMenu } from "react-icons/fi";
+import { ImCancelCircle } from "react-icons/im";
 import SideBarComp from "./SideBar/SideBarComp";
+
 import { NavLink } from "react-router-dom";
+import { Link } from "react-scroll";
+
 
 const Header = () => {
   const [sideShow, setSideShow] = React.useState(false);
+
 
   const toggleSideBar = () => {
     setSideShow(!sideShow);
@@ -43,6 +48,52 @@ const Header = () => {
       {sideShow ? <SideBarComp /> : null}
     </Container>
   );
+	const toggleSideBar = () => {
+		setSideShow(!sideShow);
+	};
+	return (
+		<Container>
+			<Logo>Expense-Tracker</Logo>
+			<Navigation>
+				<Nav offset={-100} smooth={true} duration={500} to='platform'>
+					Platform
+				</Nav>
+				<Nav offset={-100} smooth={true} duration={500} to='solution'>
+					Solution
+				</Nav>
+				<Nav offset={-100} smooth={true} duration={500} to='customer'>
+					Customers
+				</Nav>
+				<Nav offset={-100} smooth={true} duration={500} to='resource'>
+					Resources
+				</Nav>
+				<Nav offset={-100} smooth={true} duration={500} to='company'>
+					Company
+				</Nav>
+			</Navigation>
+			<ButtonHold>
+				<Button bd='1px solid gray' bg='transparent'>
+					Sign In
+				</Button>
+				<Button bd='' bg='#926efc'>
+					Watch Video
+				</Button>
+			</ButtonHold>
+
+			{sideShow ? (
+				<Menu onClick={toggleSideBar}>
+					<ImCancelCircle />
+				</Menu>
+			) : (
+				<Menu onClick={toggleSideBar}>
+					<FiMenu />
+				</Menu>
+			)}
+
+			{sideShow ? <SideBarComp toggleSideBar={toggleSideBar} /> : null}
+		</Container>
+	);
+
 };
 
 export default Header;
@@ -77,6 +128,17 @@ const Nav = styled.div`
   margin-left: 10px;
   margin-right: 10px;
   transition: all 350ms;
+
+	@media screen and (max-width: 960px) {
+		margin-right: 10px;
+		display: none;
+	}
+`;
+const Nav = styled(Link)`
+	margin-left: 10px;
+	margin-right: 10px;
+	transition: all 350ms;
+
 
   :hover {
     color: gray;

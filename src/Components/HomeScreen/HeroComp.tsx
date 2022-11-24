@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
+import { FaPlay } from "react-icons/fa";
+
 const HeroComp = () => {
 	return (
-		<Container>
+		<Container id='platform'>
 			<Wrapper>
 				<First>
 					<h1>
@@ -15,11 +17,14 @@ const HeroComp = () => {
 						consequuntur.
 					</p>
 					<ButtonHold>
-						<Button bd='1px solid gray' bg='transparent'>
-							Sign In
-						</Button>
 						<Button bd='' bg='#926efc'>
-							Watch Video
+							Book a Demo
+						</Button>
+						<Button bd='1px solid gray' bg='transparent'>
+							<Icons>
+								<FaPlay />
+							</Icons>
+							Watch video
 						</Button>
 					</ButtonHold>
 
@@ -29,7 +34,7 @@ const HeroComp = () => {
 					</Rated>
 				</First>
 				<Second>
-					<HeroImage src='/assets/herobg.png' />
+					<HeroImage src='/assets/h2.png' />
 				</Second>
 			</Wrapper>
 		</Container>
@@ -37,6 +42,10 @@ const HeroComp = () => {
 };
 
 export default HeroComp;
+
+const Icons = styled.div`
+	margin-right: 10px;
+`;
 
 const Wrapper = styled.div`
 	margin-top: 20px;
@@ -47,12 +56,19 @@ const Wrapper = styled.div`
 	justify-content: center;
 	color: white;
 	padding-bottom: 50px;
-	flex-wrap: wrap;
+
+	@media screen and (max-width: 400px) {
+		/* padding-left: 30px; */
+		flex-direction: column-reverse;
+		align-items: center;
+		flex-wrap: wrap;
+	}
 
 	@media screen and (max-width: 960px) {
 		/* padding-left: 30px; */
 		flex-direction: column-reverse;
 		align-items: center;
+		flex-wrap: nowrap;
 	}
 `;
 
@@ -118,7 +134,7 @@ const Button = styled.button<{ bg: string; bd: string }>`
 	margin-right: 10px;
 
 	height: 40px;
-	width: 120px;
+	width: 150px;
 	background-color: ${(props) => props.bg};
 	display: flex;
 	justify-content: center;
@@ -144,10 +160,9 @@ const Container = styled.div`
 	/* align-items: center; */
 	color: white;
 
-	flex-wrap: wrap;
-
 	@media screen and (max-width: 960px) {
 		/* padding-left: 10px; */
 		flex-direction: column-reverse;
+		flex-wrap: nowrap;
 	}
 `;
