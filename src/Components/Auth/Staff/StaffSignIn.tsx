@@ -1,10 +1,83 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
-const SignIn = () => {
+import LoadingState from "../../../LoadingScreen";
+import { useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { user } from "../../Global/GlobalState";
+import { useRecoilValue, useRecoilState } from "recoil";
+
+interface iData {
+  email: string;
+  password: string;
+}
+
+const url = "https://event-3p90.onrender.com";
+const url2 = "http://localhost:2233";
+
+const StaffSignIn = () => {
+  const naviage = useNavigate();
+
+  const [loading, setLoading] = useState<boolean>(false);
+  //   const users = useRecoilValue(user);
+  const [users, setUsers] = useRecoilState(user);
+
+  const yupSchema = yup.object().shape({
+    email: yup.string().required("This field has to be filled"),
+    password: yup.string().required("This field has to be filled"),
+  });
+
+  const {
+    register,
+    formState: { errors },
+    reset,
+    handleSubmit,
+  } = useForm<iData>({
+    resolver: yupResolver(yupSchema),
+  });
+
+  const onSubmit: SubmitHandler<iData> = async (data) => {
+    const { email, password } = data;
+
+    setLoading(true);
+
+    await axios
+      .post(`${url}/api/staff/signin`, { email, password })
+      .then((res) => {
+        setUsers(res.data.data);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Welcome back",
+          showConfirmButton: false,
+          timer: 2500,
+        }).then(() => {
+          naviage("/");
+        });
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.response);
+        Swal.fire({
+          title: error.response.data.message,
+          text: `Please varify your account first`,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 3500,
+        }).then(() => {
+          setLoading(false);
+        });
+      });
+  };
+
   return (
     <Container>
+      {loading ? <LoadingState /> : null}
       <Wrapper>
         <InputPart>
           <IconTop>
@@ -19,19 +92,25 @@ const SignIn = () => {
             </NavLink>
           </IconTop>
           <SignInputHold>
-            <SignTitle>Sign In</SignTitle>
-            <SignSubTitle>To Access Your Account</SignSubTitle>
-            <InputForm>
-              <InputDiv placeholder="Email" />
-              <Error>Err</Error>
-              <InputDiv placeholder="Password" />
-              <Error>Err</Error>
+            <SignTitle>Staff Sign In</SignTitle>
+            <SignSubTitle>To Record Company's Access</SignSubTitle>
+            <InputForm onSubmit={handleSubmit(onSubmit)}>
+              <InputDiv placeholder="Enter Your Email" {...register("email")} />
+              <Error>{errors.email && "Your Email is required"}</Error>
+              <InputDiv
+                placeholder="Password"
+                {...register("password")}
+                type="password"
+              />
+              <Error>{errors.password && "Company password is required"}</Error>
 
               <InputButton type="submit">Sign In</InputButton>
+
               <NavLink
-                to="/forgotpassword"
+                to="/forgotpasswords"
                 style={{
                   textDecoration: "none",
+                  marginTop: "10px",
                 }}
               >
                 <Forgot>Forgot Password?</Forgot>
@@ -40,7 +119,7 @@ const SignIn = () => {
             <HasAcc>
               Don't have an account?{" "}
               <NavLink
-                to="/signupadmin"
+                to="/signupstaff"
                 style={{
                   textDecoration: "none",
                 }}
@@ -58,7 +137,7 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default StaffSignIn;
 
 const Forgot = styled.div`
   font-size: 11px;
@@ -72,7 +151,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: Montserrat;
+  /* font-family: Montserrat; */
   background-color: #fff;
 `;
 const Wrapper = styled.div`
@@ -114,6 +193,7 @@ const SignTitle = styled.div`
 const SignSubTitle = styled.div`
   font-size: 12px;
   color: #77838f;
+  margin-bottom: 10px;
 `;
 const InputForm = styled.form`
   display: flex;
@@ -130,19 +210,18 @@ const InputDiv = styled.input`
   font-weight: 700;
   font-size: 13px;
   background-color: #926efc74;
-  font-family: Montserrat;
+  /* font-family: Montserrat; */
   padding-left: 20px;
+  border: 2px solid #10004174;
+
   ::placeholder {
-    font-family: Montserrat;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 13px;
-    /* color: #377dff; */
-    color: #000;
-    /* padding-left: 20px; */
+    color: gray;
   }
 `;
 const InputButton = styled.button`
-  height: 40px;
+  height: 50px;
   width: 100%;
   border: none;
   outline: none;
@@ -153,6 +232,12 @@ const InputButton = styled.button`
   background-color: #000;
   border-radius: 3px;
   margin-top: 10px;
+  transition: all 350ms;
+
+  :hover {
+    cursor: pointer;
+    transform: scale(1.015);
+  }
 `;
 const HasAcc = styled.div`
   font-size: 12px;

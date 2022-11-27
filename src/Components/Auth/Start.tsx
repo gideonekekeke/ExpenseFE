@@ -54,7 +54,7 @@ const Start: React.FC = () => {
             <Image src={school} alt="school" />
           </HolderData>
 
-          <HolderData bg="red" to="/signinMember">
+          <HolderData bg="red" to="/signinstaff">
             <Content>
               <TextContext>Login as Company Staff</TextContext>
               <TextDetail>Record how today's buiness went...!</TextDetail>
