@@ -9,8 +9,8 @@ interface iData {
   name: string;
 }
 
-export const user = atom({
+export const user = atom({ 
   key: "user",
-  default: {} as iData,
+  default: {} as iData | null,
   effects_UNSTABLE: [persistAtom],
 });

@@ -49,8 +49,7 @@ const SignIn = () => {
     await axios
       .post(`${url}/api/company/signin`, { name, password })
       .then((res) => {
-        console.log(res.data.data);
-        // setUsers(res.data.data);
+        setUsers(res.data.data);
         Swal.fire({
           position: "center",
           icon: "success",
@@ -58,7 +57,7 @@ const SignIn = () => {
           showConfirmButton: false,
           timer: 2500,
         }).then(() => {
-          //   naviage("/");
+          naviage("/");
         });
         setLoading(false);
       })

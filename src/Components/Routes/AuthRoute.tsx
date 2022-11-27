@@ -8,6 +8,7 @@ import SignUpMessage from "../Auth/Admin/ConfirmCompanyMessage";
 import Start from "../Auth/Start";
 import ConfirmCompany from "../Auth/Admin/confirmCompany";
 import ConfirmCompanyMessage from "../Auth/Admin/ConfirmCompanyMessage";
+import PasswordRequest from "../Auth/Admin/PasswordRequest";
 
 const AuthRoutes = () => {
   let element = useRoutes([
@@ -32,8 +33,12 @@ const AuthRoutes = () => {
       element: <ForgotPassword />,
     },
     {
-      path: "/resetpassword",
+      path: "/api/company/:id/:token/reset",
       element: <ResetPassword />,
+    },
+    {
+      path: "/requestresetpassword",
+      element: <PasswordRequest />,
     },
     {
       path: "/api/company/:id/verify",
@@ -46,4 +51,4 @@ const AuthRoutes = () => {
 
 export default AuthRoutes;
 
-// confirm - company - message;
+// :id/:token/reset

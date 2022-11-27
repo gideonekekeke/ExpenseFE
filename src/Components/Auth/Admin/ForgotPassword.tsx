@@ -1,10 +1,77 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { user } from "../../Global/GlobalState";
+import { useRecoilState } from "recoil";
+import LoadingState from "../../../LoadingScreen";
+
+interface iData {
+  name: string;
+}
+
+const url = "https://event-3p90.onrender.com";
+
 const ForgotPassword = () => {
+  const naviage = useNavigate();
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [users, setUsers] = useRecoilState(user);
+
+  const yupSchema = yup.object().shape({
+    name: yup.string().required("This field has to be filled"),
+  });
+
+  const {
+    register,
+    formState: { errors },
+    reset,
+    handleSubmit,
+  } = useForm<iData>({
+    resolver: yupResolver(yupSchema),
+  });
+
+  const onSubmit: SubmitHandler<iData> = async (data) => {
+    const { name } = data;
+    setLoading(true);
+    await axios
+      .post(`${url}/api/company/reset`, { name })
+      .then((res) => {
+        setUsers(res.data.data);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Password reset has been logged",
+          showConfirmButton: false,
+          timer: 2500,
+        }).then(() => {
+          naviage("/requestresetpassword");
+        });
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.response);
+        Swal.fire({
+          title: error.response.data.message,
+          // text: `Please varify your account first`,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 3500,
+        }).then(() => {
+          setLoading(false);
+        });
+      });
+  };
+
   return (
     <Container>
+      {loading ? <LoadingState /> : null}
       <Wrapper>
         <InputPart>
           <IconTop>
@@ -20,10 +87,10 @@ const ForgotPassword = () => {
           </IconTop>
           <SignInputHold>
             <SignTitle>Forgot Password?</SignTitle>
-            <SignSubTitle>Enter Your Mail To Reset Now</SignSubTitle>
-            <InputForm>
-              <InputDiv placeholder="Email" />
-              <Error>Err</Error>
+            <SignSubTitle>Enter Your company Name To Reset Now</SignSubTitle>
+            <InputForm onSubmit={handleSubmit(onSubmit)}>
+              <InputDiv placeholder="Company Name" {...register("name")} />
+              <Error>{errors.name && "Company name is required"}</Error>
 
               <InputButton type="submit">Request Now</InputButton>
               <NavLink
@@ -61,6 +128,7 @@ export default ForgotPassword;
 const Forgot = styled.div`
   font-size: 11px;
   font-weight: 700;
+  margin-top: 5px;
 `;
 
 const Container = styled.div`
@@ -73,6 +141,7 @@ const Container = styled.div`
   font-family: Montserrat;
   background-color: #fff;
 `;
+
 const Wrapper = styled.div`
   width: 60%;
   display: flex;
@@ -112,12 +181,14 @@ const SignTitle = styled.div`
 const SignSubTitle = styled.div`
   font-size: 12px;
   color: #77838f;
+  margin-bottom: 10px;
 `;
 const InputForm = styled.form`
   display: flex;
   flex-direction: column;
   margin-bottom: 40px;
 `;
+
 const InputDiv = styled.input`
   height: 45px;
   width: 280px;
@@ -128,19 +199,18 @@ const InputDiv = styled.input`
   font-weight: 700;
   font-size: 13px;
   background-color: #926efc74;
-  font-family: Montserrat;
+  /* font-family: Montserrat; */
   padding-left: 20px;
+  border: 2px solid #10004174;
+
   ::placeholder {
-    font-family: Montserrat;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 13px;
-    /* color: #377dff; */
-    color: #000;
-    /* padding-left: 20px; */
+    color: gray;
   }
 `;
 const InputButton = styled.button`
-  height: 40px;
+  height: 50px;
   width: 100%;
   border: none;
   outline: none;
