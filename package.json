@@ -24,6 +24,8 @@
     "react-scripts": "5.0.1",
     "react-scroll": "^1.8.8",
     "react-slick": "^0.29.0",
+    "recoil": "^0.7.6",
+    "recoil-persist": "^4.2.0",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.6",
     "sweetalert2": "^11.6.14",

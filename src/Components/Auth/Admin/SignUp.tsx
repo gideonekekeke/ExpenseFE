@@ -18,10 +18,6 @@ interface iData {
   confirm: string;
 }
 
-interface iContent {
-  "Content-Type": string;
-}
-
 const url = "https://event-3p90.onrender.com";
 const url2 = "http://localhost:2233";
 
@@ -142,14 +138,7 @@ const SignUp: React.FC = () => {
               />
               <Error>{errors.confirm && "password doesn't match"}</Error>
 
-              <InputButton
-                type="submit"
-                onClick={() => {
-                  console.log("Clicked");
-                }}
-              >
-                Sign Up
-              </InputButton>
+              <InputButton type="submit">Sign Up</InputButton>
             </InputForm>
 
             <HasAcc>

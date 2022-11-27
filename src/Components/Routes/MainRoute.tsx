@@ -5,7 +5,6 @@ import AllRoutes from "./AllRoutes";
 const MainRoute = () => {
   return (
     <div>
-      {/* <Header /> */}
       <AllRoutes />
     </div>
   );
