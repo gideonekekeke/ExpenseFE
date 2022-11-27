@@ -21,7 +21,7 @@ const Auth = () => {
             }}
           >
             <AuthText>
-              <TextContent>Sign in as an admin</TextContent>
+              <TextContent>Sign in as an Company</TextContent>
               <SmallText>
                 personalized salary estimate. Read reviews on over 600,000
                 companies worldwide
@@ -37,7 +37,7 @@ const Auth = () => {
             }}
           >
             <AuthText>
-              <TextContent>Sign in as a User</TextContent>
+              <TextContent>Sign in as a Staff</TextContent>
               <SmallText>
                 personalized salary estimate. Read reviews on over 600,000
                 companies worldwide

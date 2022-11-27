@@ -7,6 +7,8 @@ import SignIn from "../Auth/Admin/SignIn";
 import SignUp from "../Auth/Admin/SignUp";
 import HomeScreen from "../HomeScreen";
 import SignUpMessage from "../Auth/Admin/SignUpMessage";
+import Start from "../Auth/Start";
+import ConfirmCompany from "../Auth/Admin/confirmCompany";
 
 const AllRoutes = () => {
   let element = useRoutes([
@@ -14,13 +16,18 @@ const AllRoutes = () => {
       path: "/",
       element: <HomeScreen />,
     },
+
     {
       path: "/auth",
-      element: <Auth />,
+      element: <Start />,
     },
     {
       path: "/signupadmin",
       element: <SignUp />,
+    },
+    {
+      path: "/confirmcompany",
+      element: <ConfirmCompany />,
     },
     {
       path: "/signinadmin",
