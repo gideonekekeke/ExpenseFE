@@ -26,6 +26,7 @@ const url = "https://event-3p90.onrender.com";
 const url2 = "http://localhost:2233";
 
 const SignUp: React.FC = () => {
+  const naviage = useNavigate();
   const [image, setImage] = useState<string>("");
   const [avatar, setAvatar] = useState(pix);
   const [loading, setLoading] = useState<boolean>(false);
@@ -62,11 +63,7 @@ const SignUp: React.FC = () => {
     formData.append("image", image);
     formData.append("email", email);
     formData.append("password", password);
-
-    const config = {
-      "Content-Type": "multipart/form-data",
-    };
-
+    setLoading(true);
     await axios
       .post(`${url}/api/company/create`, formData)
       .then((res) => {
@@ -78,12 +75,15 @@ const SignUp: React.FC = () => {
           title: "Your account has been created successfully",
           showConfirmButton: false,
           timer: 2500,
-        }).then(() => {});
+        }).then(() => {
+          naviage("/confirmcompany");
+        });
         setLoading(false);
       })
       .catch((error) => {
+        console.log(error.response);
         Swal.fire({
-          title: error.response.data.message,
+          title: "Please upload your company Logo",
           text: `Please check and fix this ERROR`,
           icon: "error",
           showConfirmButton: false,

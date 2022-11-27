@@ -4,15 +4,18 @@ import "./App.css";
 import Header from "./Components/HomeScreen/Header";
 import AllRoutes from "./Components/Routes/AllRoutes";
 import { GlobalStyle } from "./Components/Global/GlobalStyle";
+import AuthRoutes from "./Components/Routes/AuthRoute";
+import MainRoute from "./Components/Routes/MainRoute";
 
 function App() {
-	return (
-		<div>
-			<Header />
-			<GlobalStyle />
-			<AllRoutes />
-		</div>
-	);
+  return (
+    <div>
+      <GlobalStyle />
+      <AuthRoutes />
+
+      <MainRoute />
+    </div>
+  );
 }
 
 export default App;
