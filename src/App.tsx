@@ -14,7 +14,7 @@ function App() {
       <AuthRoutes />
 
       <MainRoute />
-    </div>
+
   );
 }
 
