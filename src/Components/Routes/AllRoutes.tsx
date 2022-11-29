@@ -7,6 +7,9 @@ import SignIn from "../Auth/Admin/SignIn";
 import SignUp from "../Auth/Admin/SignUp";
 import HomeScreen from "../HomeScreen";
 import SignUpMessage from "../Auth/Admin/SignUpMessage";
+import Dashboard from "../DashBoard/ExpComp/Screen/Dashboard";
+import ExpenseData from "../DashBoard/ExpComp/ExpenseComp/ExpenseData";
+import ExpComp from "../DashBoard/ExpComp/ExpenseComp/ExpComp";
 
 const AllRoutes = () => {
   let element = useRoutes([
@@ -37,6 +40,21 @@ const AllRoutes = () => {
     {
       path: "/signupmessage",
       element: <SignUpMessage />,
+    },
+    {
+      path: "/admin-dashboard",
+
+      children: [
+        {
+          index: true,
+          element: <Dashboard />,
+        },
+
+        {
+          path: "expense",
+          element: <ExpComp />,
+        },
+      ],
     },
   ]);
 
