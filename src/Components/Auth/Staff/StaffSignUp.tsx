@@ -2,30 +2,40 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { user } from "../../Global/GlobalState";
-import { useRecoilState } from "recoil";
+import pix from "../adds.png";
 import LoadingState from "../../../LoadingScreen";
+import { useNavigate } from "react-router-dom";
 
 interface iData {
   name: string;
+  email: string;
+  password: string;
+  confirm: string;
+  userName: string;
+  token: string;
 }
 
 const url = "https://event-3p90.onrender.com";
+const url2 = "http://localhost:2233";
 
-const ForgotPassword = () => {
+const StaffSignUp: React.FC = () => {
   const naviage = useNavigate();
-
+  const [image, setImage] = useState<string>("");
+  const [avatar, setAvatar] = useState(pix);
   const [loading, setLoading] = useState<boolean>(false);
-  const [users, setUsers] = useRecoilState(user);
 
   const yupSchema = yup.object().shape({
     name: yup.string().required("This field has to be filled"),
+    token: yup.string().required("This field has to be filled"),
+    userName: yup.string().required("This field has to be filled"),
+    email: yup.string().required("This field has to be filled"),
+    password: yup.string().required("This field has to be filled"),
+    confirm: yup.string().oneOf([yup.ref("password")], null!),
   });
 
   const {
@@ -37,29 +47,46 @@ const ForgotPassword = () => {
     resolver: yupResolver(yupSchema),
   });
 
+  const imageUploader = async (e: any) => {
+    const file = e.target.files[0];
+    const save = URL.createObjectURL(file);
+    setImage(file);
+    setAvatar(save);
+  };
+
   const onSubmit: SubmitHandler<iData> = async (data) => {
-    const { name } = data;
+    const { name, email, password, token, userName } = data;
+
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("image", image);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("token", token);
+    formData.append("userName", userName);
     setLoading(true);
     await axios
-      .post(`${url}/api/company/reset`, { name })
+      .post(`${url}/api/staff/create`, formData)
       .then((res) => {
-        setUsers(res.data.data);
+        console.log(res.data.data);
+
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "Password reset has been logged",
+          title: "Your account has been created successfully",
           showConfirmButton: false,
           timer: 2500,
         }).then(() => {
-          naviage("/requestresetpassword");
+          naviage("/confirmcompany");
         });
         setLoading(false);
       })
       .catch((error) => {
         console.log(error.response);
         Swal.fire({
-          title: error.response.data.message,
-          // text: `Please varify your account first`,
+          title: "Please upload your company Logo",
+          text: `Please check and fix this ERROR`,
           icon: "error",
           showConfirmButton: false,
           timer: 3500,
@@ -86,49 +113,106 @@ const ForgotPassword = () => {
             </NavLink>
           </IconTop>
           <SignInputHold>
-            <SignTitle>Forgot Password?</SignTitle>
-            <SignSubTitle>Enter Your company Name To Reset Now</SignSubTitle>
+            <SignTitle>Staff Sign Up</SignTitle>
+            <SignSubTitle>Register as staff to your Company</SignSubTitle>
             <InputForm onSubmit={handleSubmit(onSubmit)}>
+              <ImageHolder>
+                <Image src={avatar} />
+                <ImageLabel htmlFor="pix">Upload your avatar</ImageLabel>
+                <ImageInput
+                  id="pix"
+                  onChange={imageUploader}
+                  type="file"
+                  accept="image/png, image/gif, image/jpeg"
+                />
+              </ImageHolder>
+              <br />
+
               <InputDiv placeholder="Company Name" {...register("name")} />
               <Error>{errors.name && "Company name is required"}</Error>
 
-              <InputButton type="submit">Request Now</InputButton>
-              <NavLink
-                to="/signinadmin"
-                style={{
-                  textDecoration: "none",
-                }}
-              >
-                <Forgot>Remember Password?</Forgot>
-              </NavLink>
+              <InputDiv placeholder="Company Token" {...register("token")} />
+              <Error>{errors.token && "Company Token is required"}</Error>
+
+              <InputDiv
+                placeholder="Enter User Name"
+                {...register("userName")}
+              />
+              <Error>{errors.userName && "Please Enter a user Name"}</Error>
+
+              <InputDiv placeholder="Email" {...register("email")} />
+              <Error>{errors.email && "Email is required"}</Error>
+              <InputDiv
+                placeholder="Password"
+                {...register("password")}
+                type="password"
+              />
+              <Error>{errors.password && "please enter your password"}</Error>
+              <InputDiv
+                placeholder="Confirm Password"
+                {...register("confirm")}
+                type="password"
+              />
+              <Error>{errors.confirm && "password doesn't match"}</Error>
+
+              <InputButton type="submit">Sign Up</InputButton>
             </InputForm>
+
             <HasAcc>
-              Don't have an account?{" "}
+              Already has an account?{" "}
               <NavLink
-                to="/signupadmin"
+                to="/signinstaff"
                 style={{
                   textDecoration: "none",
                 }}
               >
-                <span>Sign Up</span>
+                <span>Sign In</span>
               </NavLink>
             </HasAcc>
           </SignInputHold>
         </InputPart>
         <ImagePart>
-          <ImgMain src="/assets/got.png" alt="" />
+          <ImgMain src="/assets/up.png" alt="" />
         </ImagePart>
       </Wrapper>
     </Container>
   );
 };
 
-export default ForgotPassword;
+export default StaffSignUp;
 
-const Forgot = styled.div`
-  font-size: 11px;
-  font-weight: 700;
-  margin-top: 5px;
+const ImageHolder = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+const ImageLabel = styled.label`
+  background-color: #926efc;
+  padding: 15px 7px;
+  width: 140px;
+  color: white;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  transition: all 350ms;
+
+  :hover {
+    cursor: pointer;
+    transform: scale(1.02);
+  }
+`;
+const ImageInput = styled.input`
+  display: none;
+`;
+
+const Image = styled.img`
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid black;
+  margin-bottom: 10px;
 `;
 
 const Container = styled.div`
@@ -138,10 +222,9 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: Montserrat;
+  /* font-family: Montserrat; */
   background-color: #fff;
 `;
-
 const Wrapper = styled.div`
   width: 60%;
   display: flex;
@@ -188,7 +271,6 @@ const InputForm = styled.form`
   flex-direction: column;
   margin-bottom: 40px;
 `;
-
 const InputDiv = styled.input`
   height: 45px;
   width: 280px;
@@ -198,8 +280,8 @@ const InputDiv = styled.input`
   border-radius: 5px;
   font-weight: 700;
   font-size: 13px;
-  background-color: #926efc74;
-  /* font-family: Montserrat; */
+  background-color: #c9b8fc74;
+  font-family: Montserrat;
   padding-left: 20px;
   border: 2px solid #10004174;
 
@@ -220,7 +302,13 @@ const InputButton = styled.button`
   /* background-color: #377dff; */
   background-color: #000;
   border-radius: 3px;
-  margin-top: 10px;
+  margin-top: 20px;
+  transition: all 350ms;
+
+  :hover {
+    cursor: pointer;
+    transform: scale(1.015);
+  }
 `;
 const HasAcc = styled.div`
   font-size: 12px;

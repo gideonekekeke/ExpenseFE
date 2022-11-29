@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FiArrowLeftCircle } from "react-icons/fi";
-import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as yup from "yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -13,19 +11,22 @@ import { useRecoilState } from "recoil";
 import LoadingState from "../../../LoadingScreen";
 
 interface iData {
-  name: string;
+  password: string;
+  confirm: string;
 }
 
 const url = "https://event-3p90.onrender.com";
 
-const ForgotPassword = () => {
+const StaffResetPassword = () => {
+  const { id, token } = useParams();
   const naviage = useNavigate();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [users, setUsers] = useRecoilState(user);
 
   const yupSchema = yup.object().shape({
-    name: yup.string().required("This field has to be filled"),
+    password: yup.string().required("This field has to be filled"),
+    confirm: yup.string().oneOf([yup.ref("password"), null]),
   });
 
   const {
@@ -38,20 +39,20 @@ const ForgotPassword = () => {
   });
 
   const onSubmit: SubmitHandler<iData> = async (data) => {
-    const { name } = data;
+    const { password } = data;
     setLoading(true);
     await axios
-      .post(`${url}/api/company/reset`, { name })
+      .post(`${url}/api/staff/${id}/${token}/reset`, { password })
       .then((res) => {
         setUsers(res.data.data);
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "Password reset has been logged",
+          title: "Password has been updated",
           showConfirmButton: false,
           timer: 2500,
         }).then(() => {
-          naviage("/requestresetpassword");
+          naviage("/signinstaff");
         });
         setLoading(false);
       })
@@ -71,65 +72,42 @@ const ForgotPassword = () => {
 
   return (
     <Container>
+      {" "}
       {loading ? <LoadingState /> : null}
       <Wrapper>
         <InputPart>
-          <IconTop>
-            <NavLink
-              to="/"
-              style={{
-                textDecoration: "none",
-                color: "#000",
-              }}
-            >
-              <FiArrowLeftCircle />
-            </NavLink>
-          </IconTop>
           <SignInputHold>
-            <SignTitle>Forgot Password?</SignTitle>
-            <SignSubTitle>Enter Your company Name To Reset Now</SignSubTitle>
+            <SignTitle>Reset Password?</SignTitle>
+            <SignSubTitle>Enter a New Password</SignSubTitle>
             <InputForm onSubmit={handleSubmit(onSubmit)}>
-              <InputDiv placeholder="Company Name" {...register("name")} />
-              <Error>{errors.name && "Company name is required"}</Error>
+              <InputDiv
+                placeholder="Enter New Password"
+                {...register("password")}
+                type="password"
+              />
+              <Error>{errors.password && "New Password is required"}</Error>
 
-              <InputButton type="submit">Request Now</InputButton>
-              <NavLink
-                to="/signinadmin"
-                style={{
-                  textDecoration: "none",
-                }}
-              >
-                <Forgot>Remember Password?</Forgot>
-              </NavLink>
+              <InputDiv
+                placeholder="Confirm Password"
+                {...register("confirm")}
+                type="password"
+              />
+
+              <Error>{errors.confirm && "Password must match"}</Error>
+
+              <InputButton type="submit">Reset Now</InputButton>
             </InputForm>
-            <HasAcc>
-              Don't have an account?{" "}
-              <NavLink
-                to="/signupadmin"
-                style={{
-                  textDecoration: "none",
-                }}
-              >
-                <span>Sign Up</span>
-              </NavLink>
-            </HasAcc>
           </SignInputHold>
         </InputPart>
         <ImagePart>
-          <ImgMain src="/assets/got.png" alt="" />
+          <ImgMain src="/assets/set.jpg" alt="" />
         </ImagePart>
       </Wrapper>
     </Container>
   );
 };
 
-export default ForgotPassword;
-
-const Forgot = styled.div`
-  font-size: 11px;
-  font-weight: 700;
-  margin-top: 5px;
-`;
+export default StaffResetPassword;
 
 const Container = styled.div`
   width: 100%;
@@ -141,7 +119,6 @@ const Container = styled.div`
   font-family: Montserrat;
   background-color: #fff;
 `;
-
 const Wrapper = styled.div`
   width: 60%;
   display: flex;
@@ -162,11 +139,7 @@ const ImagePart = styled.div`
   }
 `;
 // const IconTop = styled(NavLink)`
-const IconTop = styled.div`
-  font-size: 30px;
-  text-decoration: none;
-  /* color: ${(props) => props.theme.textColor}; */
-`;
+
 const SignInputHold = styled.div`
   display: flex;
   flex-flow: column wrap;
@@ -188,7 +161,6 @@ const InputForm = styled.form`
   flex-direction: column;
   margin-bottom: 40px;
 `;
-
 const InputDiv = styled.input`
   height: 45px;
   width: 280px;
@@ -221,16 +193,6 @@ const InputButton = styled.button`
   background-color: #000;
   border-radius: 3px;
   margin-top: 10px;
-`;
-const HasAcc = styled.div`
-  font-size: 12px;
-  font-weight: 500;
-  color: ${(props) => props.theme.textColor};
-  span {
-    color: #926efc;
-    cursor: pointer;
-    font-weight: 600;
-  }
 `;
 
 const ImgMain = styled.img`
