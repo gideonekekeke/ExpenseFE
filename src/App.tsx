@@ -4,15 +4,26 @@ import "./App.css";
 import Header from "./Components/HomeScreen/Header";
 import AllRoutes from "./Components/Routes/AllRoutes";
 import { GlobalStyle } from "./Components/Global/GlobalStyle";
+import SlideComp from "./Components/DashBoard/ExpComp/Header/SlideComp";
+import DashHeader from "./Components/DashBoard/ExpComp/Header/Header";
 
 function App() {
-	return (
-		<div>
-			<Header />
-			<GlobalStyle />
-			<AllRoutes />
-		</div>
-	);
+  const [show, setShow] = React.useState(true);
+
+  return (
+    <div>
+      <GlobalStyle />
+      {show ? (
+        <>
+          <DashHeader />
+        </>
+      ) : (
+        <Header />
+      )}
+
+      <AllRoutes />
+    </div>
+  );
 }
 
 export default App;
