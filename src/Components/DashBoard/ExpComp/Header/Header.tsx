@@ -67,7 +67,7 @@ const DashHeader = () => {
             <Icon1 />
             <Write>Dashboard</Write>
           </Hold>
-          <Hold to="/">
+          <Hold to="/admin-dashboard/staff">
             <Icon2 />
             <Write>Staffs</Write>
           </Hold>
@@ -75,9 +75,9 @@ const DashHeader = () => {
             <Icon3 />
             <Write>Expenses</Write>
           </Hold>
-          <Hold to="/">
+          <Hold to="/admin-dashboard/hub">
             <Icon4 />
-            <Write>Income</Write>
+            <Write>Hubs</Write>
           </Hold>
           <Hold to="/">
             <Icon5 />
