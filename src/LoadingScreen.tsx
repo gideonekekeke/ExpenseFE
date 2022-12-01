@@ -30,7 +30,7 @@ const Container = styled.div`
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  z-index: 25000;
+  z-index: 25;
   position: fixed;
   top: 0;
   right: 0;
