@@ -2,12 +2,10 @@ import React from "react";
 import { useRoutes } from "react-router-dom";
 
 import HomeScreen from "../HomeScreen";
-import Header from "../HomeScreen/Header
-import SignUpMessage from "../Auth/Admin/SignUpMessage";
+import Header from "../HomeScreen/Header";
 import Dashboard from "../DashBoard/ExpComp/Screen/Dashboard";
-import ExpenseData from "../DashBoard/ExpComp/ExpenseComp/ExpenseData";
-import ExpComp from "../DashBoard/ExpComp/ExpenseComp/ExpComp";
 
+import ExpComp from "../DashBoard/ExpComp/ExpenseComp/ExpComp";
 
 const AllRoutes = () => {
   let element = useRoutes([
