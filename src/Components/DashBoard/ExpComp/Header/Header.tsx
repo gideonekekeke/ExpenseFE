@@ -13,18 +13,11 @@ import { user, userDecode } from "../../../Global/GlobalState";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 const DashHeader = () => {
+	const [userData, setUserData] = useRecoilState(user);
 	const [change, setChange] = useState(false);
 	const myRef = useRef<HTMLDivElement>(null!);
 	const backRef = useRef<HTMLDivElement>(null!);
-	const userData = useRecoilValue(user);
-	const [sendDecodeData, setSendDecodeData] = useRecoilState(userDecode);
-	// const readDecodeUser = useRecoilValue(userDecode);
-
-	var decoded = decode(userData);
-
-	// setSendDecodeData(decoded);
-
-	// console.log("this is the user", readDecodeUser);
+	// const userData = useRecoilValue(user);
 
 	const changeTrue = () => {
 		setChange(true);
@@ -101,9 +94,14 @@ const DashHeader = () => {
 						<Icon6 />
 						<Write>Invoices</Write>
 					</Hold>
-					<Hold to='/'>
+					<Hold
+						onClick={() => {
+							setUserData(null);
+							console.log("clicked in");
+						}}
+						to='/'>
 						<Icon7 />
-						<Write>Settings</Write>
+						<Write>LogOut</Write>
 					</Hold>
 				</Wrap>
 				{/* 
