@@ -8,11 +8,24 @@ import { BsChevronDown } from "react-icons/bs";
 import { MdOutlineNotifications } from "react-icons/md";
 import SlideComp from "./SlideComp";
 import { NavLink } from "react-router-dom";
+import decode from "jwt-decode";
+import { user, userDecode } from "../../../Global/GlobalState";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 const DashHeader = () => {
 	const [change, setChange] = useState(false);
 	const myRef = useRef<HTMLDivElement>(null!);
 	const backRef = useRef<HTMLDivElement>(null!);
+	const userData = useRecoilValue(user);
+	const [sendDecodeData, setSendDecodeData] = useRecoilState(userDecode);
+	// const readDecodeUser = useRecoilValue(userDecode);
+
+	var decoded = decode(userData);
+
+	// setSendDecodeData(decoded);
+
+	// console.log("this is the user", readDecodeUser);
+
 	const changeTrue = () => {
 		setChange(true);
 		myRef.current.style.left = "0px";
@@ -23,6 +36,7 @@ const DashHeader = () => {
 		myRef.current.style.left = "-300px";
 		backRef.current.style.left = "-2000px";
 	};
+
 	console.log(change);
 	return (
 		<div>
