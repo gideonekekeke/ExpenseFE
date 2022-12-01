@@ -11,49 +11,59 @@ import Staffs from "../DashBoard/ExpComp/ExpenseComp/Staffs";
 import Hub from "../DashBoard/ExpComp/ExpenseComp/Hub";
 import CreateHub from "../DashBoard/ExpComp/ExpenseComp/CreateHub";
 import PrivateRoute from "../Global/PrivateRoute";
+import StaffBoard from "../DashBoard/ExpComp/ExpenseComp/Staffs/StaffBoard";
+import NewInvoice from "../DashBoard/ExpComp/ExpenseComp/Staffs/NewInvoice";
 
 const AllRoutes = () => {
-	let element = useRoutes([
-		{
-			path: "/",
-			element: (
-				<div>
-					<PrivateRoute />
-				</div>
-			),
-		},
-		{
-			path: "/admin-dashboard",
+  let element = useRoutes([
+    {
+      path: "/",
+      element: (
+        <div>
+          <PrivateRoute />
+        </div>
+      ),
+    },
+    {
+      path: "/admin-dashboard",
 
-			children: [
-				{
-					index: true,
-					element: <Dashboard />,
-				},
+      children: [
+        {
+          index: true,
+          element: <Dashboard />,
+        },
 
-				{
-					path: "expense",
-					element: <ExpComp />,
-				},
-				{
-					path: "staff",
-					element: <Staffs />,
-				},
-				{
-					path: "hub",
+        {
+          path: "expense",
+          element: <ExpComp />,
+        },
+        {
+          path: "staff",
+          element: <Staffs />,
+        },
+        {
+          path: "staff-board",
+          element: <StaffBoard />,
+        },
+        {
+          path: "staff-invoice",
+          element: <NewInvoice />,
+        },
+        {
+          path: "hub",
 
-					children: [
-						{
-							index: true,
-							element: <Hub />,
-						},
-					],
-				},
-			],
-		},
-	]);
+          children: [
+            {
+              index: true,
+              element: <Hub />,
+            },
+          ],
+        },
+      ],
+    },
+  ]);
 
-	return element;
+  return element;
 };
 
 export default AllRoutes;

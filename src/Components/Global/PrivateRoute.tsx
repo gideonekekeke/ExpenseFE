@@ -7,24 +7,24 @@ import Header from "../HomeScreen/Header";
 import { user } from "./GlobalState";
 
 interface Props {
-	children?: ReactNode;
-	// any props that come into the component
+  children?: ReactNode;
+  // any props that come into the component
 }
 const PrivateRoute = ({ children, ...props }: Props) => {
-	const userData = useRecoilValue(user);
+  const userData = useRecoilValue(user);
 
-	return (
-		<div>
-			{userData !== null ? (
-				<Dashboard />
-			) : (
-				<div>
-					<Header />
-					<HomeScreen />
-				</div>
-			)}
-		</div>
-	);
+  return (
+    <div>
+      {userData !== null ? (
+        <Dashboard />
+      ) : (
+        <div>
+          <Header />
+          <HomeScreen />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default PrivateRoute;
