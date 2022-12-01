@@ -10,6 +10,7 @@ import ExpComp from "../DashBoard/ExpComp/ExpenseComp/ExpComp";
 import Staffs from "../DashBoard/ExpComp/ExpenseComp/Staffs";
 import Hub from "../DashBoard/ExpComp/ExpenseComp/Hub";
 import CreateHub from "../DashBoard/ExpComp/ExpenseComp/CreateHub";
+import PrivateRoute from "../Global/PrivateRoute";
 
 const AllRoutes = () => {
 	let element = useRoutes([
@@ -17,8 +18,7 @@ const AllRoutes = () => {
 			path: "/",
 			element: (
 				<div>
-					<Header />
-					<HomeScreen />
+					<PrivateRoute />
 				</div>
 			),
 		},
