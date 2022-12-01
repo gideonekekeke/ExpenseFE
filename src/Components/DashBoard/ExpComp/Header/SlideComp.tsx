@@ -13,9 +13,9 @@ const SlideComp = () => {
           <Icon1 />
           <Write>Dashboard</Write>
         </Hold>
-        <Hold to="/">
+        <Hold to="/staff">
           <Icon2 />
-          <Write>Staffs</Write>
+          <Write>Staff</Write>
         </Hold>
         <Hold to="/expense">
           <Icon3 />

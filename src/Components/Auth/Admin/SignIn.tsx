@@ -9,8 +9,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { user } from "../../Global/GlobalState";
+import { user, userData } from "../../Global/GlobalState";
 import { useRecoilValue, useRecoilState } from "recoil";
+import decode from "jwt-decode";
 
 interface iData {
   name: string;
@@ -23,9 +24,11 @@ const url2 = "http://localhost:2233";
 const SignIn = () => {
   const naviage = useNavigate();
 
+  const [data, setData] = useRecoilState(userData);
   const [loading, setLoading] = useState<boolean>(false);
-  //   const users = useRecoilValue(user);
   const [users, setUsers] = useRecoilState(user);
+
+  console.log(data);
 
   const yupSchema = yup.object().shape({
     name: yup.string().required("This field has to be filled"),
@@ -50,6 +53,7 @@ const SignIn = () => {
       .post(`${url}/api/company/signin`, { name, password })
       .then((res) => {
         setUsers(res.data.data);
+        setData(decode(users));
         Swal.fire({
           position: "center",
           icon: "success",

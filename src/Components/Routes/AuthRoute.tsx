@@ -16,71 +16,71 @@ import StaffForgotPasswords from "../Auth/Staff/StaffForgotPassword";
 import StaffResetPassword from "../Auth/Staff/StaffResetPassword";
 
 const AuthRoutes = () => {
-  let element = useRoutes([
-    {
-      path: "/auth",
-      element: <Start />,
-    },
+	let element = useRoutes([
+		{
+			path: "/auth",
+			element: <Start />,
+		},
 
-    {
-      path: "/signupadmin",
-      element: <SignUp />,
-    },
-    {
-      path: "/confirmcompany",
-      element: <ConfirmCompany />,
-    },
-    {
-      path: "/signinadmin",
-      element: <SignIn />,
-    },
-    {
-      path: "/forgotpassword",
-      element: <ForgotPassword />,
-    },
-    {
-      path: "/api/company/:id/:token/reset",
-      element: <ResetPassword />,
-    },
-    {
-      path: "/requestresetpassword",
-      element: <PasswordRequest />,
-    },
-    {
-      path: "/api/company/:id/verify",
-      element: <ConfirmCompanyMessage />,
-    },
+		{
+			path: "/signupadmin",
+			element: <SignUp />,
+		},
+		{
+			path: "/confirmcompany",
+			element: <ConfirmCompany />,
+		},
+		{
+			path: "/signinadmin",
+			element: <SignIn />,
+		},
+		{
+			path: "/forgotpassword",
+			element: <ForgotPassword />,
+		},
+		{
+			path: "/api/company/:id/:token/reset",
+			element: <ResetPassword />,
+		},
+		{
+			path: "/requestresetpassword",
+			element: <PasswordRequest />,
+		},
+		{
+			path: "/api/company/:id/verify",
+			element: <ConfirmCompanyMessage />,
+		},
 
-    {
-      path: "/signinstaff",
-      element: <StaffSignIn />,
-    },
+		{
+			path: "/signinstaff",
+			element: <StaffSignIn />,
+		},
 
-    {
-      path: "/signupstaff",
-      element: <StaffSignUp />,
-    },
-    {
-      path: "/api/staff/:id/verify",
-      element: <SecondConfirmation />,
-    },
-    {
-      path: "/api/staff/:id/verifystaff",
-      element: <CompanyDesides />,
-    },
+		{
+			path: "/signupstaff",
+			element: <StaffSignUp />,
+		},
+		{
+			path: "/api/staff/:id/verify",
+			element: <SecondConfirmation />,
+		},
+		{
+			path: "/api/staff/:id/verifystaff",
+			element: <CompanyDesides />,
+		},
 
-    {
-      path: "/forgotpasswords",
-      element: <StaffForgotPasswords />,
-    },
+		{
+			path: "/forgotpasswords",
+			element: <StaffForgotPasswords />,
+		},
 
-    {
-      path: "/api/staff/:id/:token/reset",
-      element: <StaffResetPassword />,
-    },
-  ]);
+		{
+			path: "/api/staff/:id/:token/reset",
+			element: <StaffResetPassword />,
+		},
+	]);
 
-  return element;
+	return element;
 };
 
 export default AuthRoutes;

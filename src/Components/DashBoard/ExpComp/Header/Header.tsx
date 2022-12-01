@@ -8,6 +8,8 @@ import { BsChevronDown } from "react-icons/bs";
 import { MdOutlineNotifications } from "react-icons/md";
 import SlideComp from "./SlideComp";
 import { NavLink } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { user, userData } from "../../../Global/GlobalState";
 
 const DashHeader = () => {
   const [change, setChange] = useState(false);
@@ -23,7 +25,10 @@ const DashHeader = () => {
     myRef.current.style.left = "-300px";
     backRef.current.style.left = "-2000px";
   };
-  console.log(change);
+
+  const [users, setUsers] = useRecoilState(user);
+  const [usersData, setUsersData] = useRecoilState(userData);
+
   return (
     <div>
       <Container>
@@ -67,7 +72,7 @@ const DashHeader = () => {
             <Icon1 />
             <Write>Dashboard</Write>
           </Hold>
-          <Hold to="/">
+          <Hold to="/admin-dashboard/staff">
             <Icon2 />
             <Write>Staffs</Write>
           </Hold>
@@ -75,9 +80,9 @@ const DashHeader = () => {
             <Icon3 />
             <Write>Expenses</Write>
           </Hold>
-          <Hold to="/">
+          <Hold to="/admin-dashboard/hub">
             <Icon4 />
-            <Write>Income</Write>
+            <Write>Hubs</Write>
           </Hold>
           <Hold to="/">
             <Icon5 />
@@ -91,6 +96,14 @@ const DashHeader = () => {
             <Icon7 />
             <Write>Settings</Write>
           </Hold>
+          <Log
+            onClick={() => {
+              setUsersData(null);
+              setUsers(null);
+            }}
+          >
+            <Write>LogOut</Write>
+          </Log>
         </Wrap>
         {/* 
           <Hold>
@@ -314,7 +327,7 @@ const Side = styled.div`
   border-top-right-radius: 30px;
   position: fixed;
   top: 88px;
-  z-index: 1111;
+  z-index: 1;
   @media (max-width: 1000px) {
     display: none;
     /* left: -300px; */
@@ -342,6 +355,28 @@ const Text = styled.div`
   font-size: 13px;
   margin-top: 20px;
 `;
+
+const Log = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0px;
+  cursor: pointer;
+  text-decoration: none;
+
+  :active {
+    border-left: 5px solid #7638ff;
+    background-color: #f8f5ff;
+    color: #7638ff;
+  }
+
+  :focus {
+    border-left: 5px solid #7638ff;
+    background-color: #f8f5ff;
+    color: #7638ff;
+  }
+`;
+
 const Hold = styled(NavLink)`
   width: 100%;
   display: flex;
