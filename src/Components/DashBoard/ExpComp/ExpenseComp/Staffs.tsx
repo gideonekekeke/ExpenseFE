@@ -7,7 +7,7 @@ const Staffs = () => {
 	return (
 		<Container>
 			<Wrapper>
-				{readUser?.staff.length >= 0 ? (
+				{readUser?.staff.length >= 1 ? (
 					<>
 						<Title>My Staffs</Title>
 						{readUser?.staff?.map((props: any) => (
