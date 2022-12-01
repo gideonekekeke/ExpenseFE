@@ -1,42 +1,85 @@
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { userDecode } from "../../../Global/GlobalState";
 
 const Staffs = () => {
+	const readUser = useRecoilValue(userDecode);
 	return (
 		<Container>
 			<Wrapper>
-				<Title>My Staffs</Title>
-				<StaffCard>
-					<CardHold>
-						<ImageBox>
-							<img src='/assets/perfect.png' alt='img' />
-						</ImageBox>
-						<TopButtom>
-							<StaffName> Olorunda Samuel </StaffName>
-							<Buttom>
-								<Detail>olorundasamuel2@gmail.com</Detail>
-							</Buttom>
-						</TopButtom>
-					</CardHold>
-				</StaffCard>
-				<StaffCard>
-					<CardHold>
-						<ImageBox>
-							<img src='/assets/perfect.png' alt='img' />
-						</ImageBox>
-						<TopButtom>
-							<StaffName> Olorunda Samuel </StaffName>
-							<Buttom>
-								<Detail>olorundasamuel2@gmail.com</Detail>
-							</Buttom>
-						</TopButtom>
-					</CardHold>
-				</StaffCard>
+				{readUser?.staff.length >= 0 ? (
+					<>
+						<Title>My Staffs</Title>
+						{/* {readUser?.staff?.map((props: any) => ( */}
+						<StaffCard>
+							<CardHold>
+								<ImageBox>
+									<img src='/assets/perfect.png' alt='img' />
+								</ImageBox>
+								<TopButtom>
+									<StaffName> Olorunda Samuel </StaffName>
+
+									<Buttom>
+										<Detail>olorundasamuel2@gmail.com</Detail>
+									</Buttom>
+								</TopButtom>
+							</CardHold>
+							<CardHold>
+								<ImageBox>
+									<img src='/assets/perfect.png' alt='img' />
+								</ImageBox>
+								<TopButtom>
+									<StaffName> Olorunda Samuel </StaffName>
+
+									<Buttom>
+										<Detail>olorundasamuel2@gmail.com</Detail>
+									</Buttom>
+								</TopButtom>
+							</CardHold>
+							<CardHold>
+								<ImageBox>
+									<img src='/assets/perfect.png' alt='img' />
+								</ImageBox>
+								<TopButtom>
+									<StaffName> Olorunda Samuel </StaffName>
+
+									<Buttom>
+										<Detail>olorundasamuel2@gmail.com</Detail>
+									</Buttom>
+								</TopButtom>
+							</CardHold>
+						</StaffCard>
+
+						{/* ))} */}
+					</>
+				) : (
+					<EmptyStaff>
+						<StaffImage src='/assets/staff/s3.svg' />
+						<h1>Staff Empty !</h1>
+						<p>You currently don't have any staff registered .</p>
+					</EmptyStaff>
+				)}
 			</Wrapper>
 		</Container>
 	);
 };
 
 export default Staffs;
+
+const EmptyStaff = styled.div`
+	/* height: 400px; */
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	margin-top: 70px;
+	justify-content: center;
+	align-items: center;
+`;
+const StaffImage = styled.img`
+	height: 100%;
+	width: 200px;
+	object-fit: contain;
+`;
 
 // const Container = styled.div`
 //   width: 100%;
@@ -78,6 +121,8 @@ const Wrapper = styled.div`
 
 	@media (max-width: 500px) {
 		width: 90%;
+		justify-content: center;
+		display: flex;
 	}
 `;
 const Title = styled.div`
@@ -86,9 +131,11 @@ const Title = styled.div`
 	margin-bottom: 20px;
 `;
 const StaffCard = styled.div`
-	width: 80%;
-	box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
 	margin: 10px 0;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
 	@media (max-width: 500px) {
 		width: 100%;
 	}
@@ -96,36 +143,53 @@ const StaffCard = styled.div`
 
 const CardHold = styled.div`
 	display: flex;
-	margin: 15px 0;
+	margin: 20px 0;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-right: 20px;
+
+	@media (max-width: 500px) {
+		margin-right: 0;
+		/* background-color: red; */
+	}
 `;
 const ImageBox = styled.div`
-	height: 60px;
-	width: 60px;
-	background-color: #fbf9fb;
+	height: 80px;
+	width: 80px;
+	background-color: #f1f1f1;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	border-radius: 50%;
 	margin: 0 20px;
 
 	img {
-		width: 40px;
+		width: 100%;
+		height: 100%;
+
 		object-fit: contain;
 	}
 `;
 const TopButtom = styled.div`
 	display: flex;
 	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+
+	margin-top: 10px;
 
 	@media (max-width: 500px) {
-		flex-direction: column;
+		/* flex-direction: column;
 		align-items: flex-start;
-		justify-content: space-around;
+		justify-content: space-around; */
 	}
 `;
 const StaffName = styled.div`
-	font-size: 13px;
+	font-size: 17px;
 	font-weight: 800;
-	margin-right: 20px;
+	/* margin-right: 20px; */
 	@media (max-width: 500px) {
 		width: 180px;
 		overflow: hidden;
