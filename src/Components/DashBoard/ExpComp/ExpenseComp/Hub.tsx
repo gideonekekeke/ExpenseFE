@@ -11,6 +11,7 @@ const url = "https://event-3p90.onrender.com";
 interface iHub {
   _id?: string;
   name?: string;
+  staff?: string;
 }
 
 const Hub: React.FC = () => {
@@ -20,6 +21,7 @@ const Hub: React.FC = () => {
   const user = useRecoilValue(userDecode);
 
   const [hubData, setHubData] = useState([] as iHub[]);
+  const [getID, setGetID] = useState<string>("");
 
   const getHub = async () => {
     const newURL = `${url}/api/hub/${user._id}/hubs`;
@@ -31,6 +33,7 @@ const Hub: React.FC = () => {
   useEffect(() => {
     getHub();
   }, []);
+
   const ToggleCreate = () => {
     setToggleCreate(!toggleCreate);
   };
@@ -52,18 +55,32 @@ const Hub: React.FC = () => {
               <HubName>{props.name}</HubName>
               <HubStaff>
                 {" "}
-                <strong>Staff:</strong> Olorunda Samuel
+                <strong>Staff:</strong>{" "}
+                {props.staff ? (
+                  <div>{props.staff}</div>
+                ) : (
+                  <div style={{ fontSize: "12px" }}>No staff assigned yet!</div>
+                )}
               </HubStaff>
               <br />
               <br />
-              <button onClick={ToggleStaff}>View details</button>
+              <button
+                onClick={() => {
+                  ToggleStaff();
+                  setGetID(props._id!);
+                }}
+              >
+                View details
+              </button>
             </HubsCard>
           ))}
         </HubsCardCtrl>
       </Wrapper>
 
       {toggleCreate ? <CreateHub ToggleCreate={ToggleCreate} /> : null}
-      {toggleStaff ? <AssignStaff ToggleStaff={ToggleStaff} /> : null}
+      {toggleStaff ? (
+        <AssignStaff ToggleStaff={ToggleStaff} getID={getID} />
+      ) : null}
     </Container>
   );
 };
