@@ -10,47 +10,46 @@ const Staffs = () => {
 				{readUser?.staff.length >= 0 ? (
 					<>
 						<Title>My Staffs</Title>
-						{/* {readUser?.staff?.map((props: any) => ( */}
-						<StaffCard>
-							<CardHold>
-								<ImageBox>
-									<img src='/assets/perfect.png' alt='img' />
-								</ImageBox>
-								<TopButtom>
-									<StaffName> Olorunda Samuel </StaffName>
+						{readUser?.staff?.map((props: any) => (
+							<StaffCard>
+								<CardHold>
+									<ImageBox>
+										<img src='/assets/perfect.png' alt='img' />
+									</ImageBox>
+									<TopButtom>
+										<StaffName> Olorunda Samuel </StaffName>
 
-									<Buttom>
-										<Detail>olorundasamuel2@gmail.com</Detail>
-									</Buttom>
-								</TopButtom>
-							</CardHold>
-							<CardHold>
-								<ImageBox>
-									<img src='/assets/perfect.png' alt='img' />
-								</ImageBox>
-								<TopButtom>
-									<StaffName> Olorunda Samuel </StaffName>
+										<Buttom>
+											<Detail>olorundasamuel2@gmail.com</Detail>
+										</Buttom>
+									</TopButtom>
+								</CardHold>
+								<CardHold>
+									<ImageBox>
+										<img src='/assets/perfect.png' alt='img' />
+									</ImageBox>
+									<TopButtom>
+										<StaffName> Olorunda Samuel </StaffName>
 
-									<Buttom>
-										<Detail>olorundasamuel2@gmail.com</Detail>
-									</Buttom>
-								</TopButtom>
-							</CardHold>
-							<CardHold>
-								<ImageBox>
-									<img src='/assets/perfect.png' alt='img' />
-								</ImageBox>
-								<TopButtom>
-									<StaffName> Olorunda Samuel </StaffName>
+										<Buttom>
+											<Detail>olorundasamuel2@gmail.com</Detail>
+										</Buttom>
+									</TopButtom>
+								</CardHold>
+								<CardHold>
+									<ImageBox>
+										<img src='/assets/perfect.png' alt='img' />
+									</ImageBox>
+									<TopButtom>
+										<StaffName> Olorunda Samuel </StaffName>
 
-									<Buttom>
-										<Detail>olorundasamuel2@gmail.com</Detail>
-									</Buttom>
-								</TopButtom>
-							</CardHold>
-						</StaffCard>
-
-						{/* ))} */}
+										<Buttom>
+											<Detail>olorundasamuel2@gmail.com</Detail>
+										</Buttom>
+									</TopButtom>
+								</CardHold>
+							</StaffCard>
+						))}
 					</>
 				) : (
 					<EmptyStaff>
