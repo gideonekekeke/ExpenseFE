@@ -9,82 +9,103 @@ import axios from "axios";
 const url = "https://event-3p90.onrender.com";
 
 interface iHub {
-	_id?: string;
-	name?: string;
-	staff?: string;
+
+  _id?: string;
+  name?: string;
+  staff?: string;
+  hubToken?: string;
+}
+interface iHubInfo {
+  _id?: string;
+  name?: string;
 }
 
 const Hub: React.FC = () => {
-	const [toggleCreate, setToggleCreate] = useState(false);
-	const [toggleStaff, setToggleStaff] = useState(false);
+  const [toggleCreate, setToggleCreate] = useState(false);
+  const [toggleStaff, setToggleStaff] = useState(false);
 
-	const user = useRecoilValue(userDecode);
+  const user = useRecoilValue(userDecode);
 
-	const [hubData, setHubData] = useState([] as iHub[]);
-	const [getID, setGetID] = useState<string>("");
+  const [hubData, setHubData] = useState([] as iHub[]);
+  const [getID, setGetID] = useState<string>("");
+  const [name, setName] = useState<string>("");
 
-	const getHub = async () => {
-		const newURL = `${url}/api/hub/${user._id}/hubs`;
-		await axios.get(newURL).then((res) => {
-			setHubData(res.data.data.hub);
-		});
-	};
+  const getHub = async () => {
+    const newURL = `${url}/api/hub/${user._id}/hubs`;
+    await axios.get(newURL).then((res) => {
+      setHubData(res.data.data.hub);
+    });
+  };
 
-	useEffect(() => {
-		getHub();
-	}, []);
+  useEffect(() => {
+    getHub();
+  }, []);
 
-	const ToggleCreate = () => {
-		setToggleCreate(!toggleCreate);
-	};
-	const ToggleStaff = () => {
-		setToggleStaff(!toggleStaff);
-	};
+  const ToggleCreate = () => {
+    setToggleCreate(!toggleCreate);
+  };
+  const ToggleStaff = () => {
+    setToggleStaff(!toggleStaff);
+  };
 
-	return (
-		<Container>
-			<Wrapper>
-				<HubsTitle>
-					<h4>All Hubs</h4>
-					<button onClick={ToggleCreate}>New Hub</button>
-				</HubsTitle>
+  return (
+    <Container>
+      <Wrapper>
+        <HubsTitle>
+          <h4>All Hubs</h4>
+          <button onClick={ToggleCreate}>New Hub</button>
+        </HubsTitle>
 
-				<HubsCardCtrl>
-					{hubData.map((props) => (
-						<HubsCard key={props?._id!}>
-							<HubName>{props.name}</HubName>
-							<HubStaff>
-								{" "}
-								<strong>Staff:</strong>{" "}
-								{props.staff ? (
-									<div>{props.staff}</div>
-								) : (
-									<div style={{ fontSize: "12px" }}>No staff assigned yet!</div>
-								)}
-							</HubStaff>
-							<br />
-							<br />
-							<button
-								onClick={() => {
-									ToggleStaff();
-									setGetID(props._id!);
-								}}>
-								View details
-							</button>
-						</HubsCard>
-					))}
-				</HubsCardCtrl>
-			</Wrapper>
+        <HubsCardCtrl>
+          {hubData.map((props) => (
+            <HubsCard key={props?._id!}>
+              <HubName>{props.name}</HubName>
+              <HubStaff>
+                {" "}
+                <strong style={{ marginRight: "5px" }}>Staff:</strong>{" "}
+                {props.staff ? (
+                  <div>{props.staff}</div>
+                ) : (
+                  <div style={{ fontSize: "12px", marginTop: "3px" }}>
+                    No staff assigned yet!
+                  </div>
+                )}
+              </HubStaff>
+              <Space />
+              <HubStaff>
+                {" "}
+                <strong style={{ marginRight: "5px" }}>Hub Token:</strong>{" "}
+                {props.hubToken}
+              </HubStaff>
+              <br />
+              <br />
+              <button
+                onClick={() => {
+                  ToggleStaff();
+                  setGetID(props._id!);
+                  setName(props.name!);
+                }}
+              >
+                View details
+              </button>
+            </HubsCard>
+          ))}
+        </HubsCardCtrl>
+      </Wrapper>
 
-			{toggleCreate ? <CreateHub ToggleCreate={ToggleCreate} /> : null}
-			{toggleStaff ? (
-				<AssignStaff ToggleStaff={ToggleStaff} getID={getID} />
-			) : null}
-		</Container>
-	);
+      {toggleCreate ? <CreateHub ToggleCreate={ToggleCreate} /> : null}
+      {toggleStaff ? (
+        <AssignStaff ToggleStaff={ToggleStaff} getID={getID} name={name} />
+      ) : null}
+    </Container>
+  );
+
 };
 
 export default Hub;
+const Space = styled.div`
+  margin-top: 5px;
+`;
 const Container = styled.div`
 	/* width: 100%; */
 	width: calc(100vw - 190px);
@@ -187,4 +208,7 @@ const HubName = styled.div`
 	font-size: 24px;
 	margin-bottom: 10px;
 `;
-const HubStaff = styled.div``;
+const HubStaff = styled.div`
+  display: flex;
+  align-items: center;
+`;
