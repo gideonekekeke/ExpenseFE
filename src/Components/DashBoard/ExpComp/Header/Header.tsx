@@ -1,19 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { FaBars } from "react-icons/fa";
 import styled from "styled-components";
-import { FaCube, FaCubes, FaFilePdf } from "react-icons/fa";
+import { FaCube, FaCubes } from "react-icons/fa";
 import { MdDashboard, MdGroup, MdInventory, MdSettings } from "react-icons/md";
 import { BiSearch, BiChevronDown } from "react-icons/bi";
 import { MdOutlineNotifications } from "react-icons/md";
 import SlideComp from "./SlideComp";
 import { NavLink } from "react-router-dom";
-import decode from "jwt-decode";
 import { user, userDecode } from "../../../Global/GlobalState";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 const DashHeader = () => {
   const [userData, setUserData] = useRecoilState(user);
   const userDataCase = useRecoilValue(userDecode);
+
 
   const [change, setChange] = useState(false);
   const myRef = useRef<HTMLDivElement>(null!);
@@ -147,6 +147,7 @@ const DashHeader = () => {
       </Back>
     </div>
   );
+
 };
 
 export default DashHeader;
@@ -312,6 +313,7 @@ const Icon5 = styled(FaFilePdf)`
     color: #7638ff;
   }
 `;
+
 const Icon6 = styled(MdInventory)`
   margin-left: 20px;
   color: #aaa;

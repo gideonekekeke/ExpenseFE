@@ -1,8 +1,7 @@
 import React from "react";
-import Header from "../HomeScreen/Header";
 import AllRoutes from "./AllRoutes";
 
-const MainRoute = () => {
+const MainRoute: React.FC = () => {
 	return (
 		<div>
 			<AllRoutes />

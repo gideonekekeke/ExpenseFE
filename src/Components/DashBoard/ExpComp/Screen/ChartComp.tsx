@@ -3,7 +3,7 @@ import styled from "styled-components";
 import DonutChart from "../ExpenseComp/DonutChart";
 import LineChart from "../ExpenseComp/LineChart";
 
-const ChartComp = () => {
+const ChartComp: React.FC = () => {
 	return (
 		<Container>
 			<Card>

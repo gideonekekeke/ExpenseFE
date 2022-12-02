@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { FaCube, FaCubes, FaFilePdf } from "react-icons/fa";
+import { FaCube, FaCubes } from "react-icons/fa";
 import { MdDashboard, MdGroup, MdInventory, MdSettings } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { user, userDecode } from "../../../Global/GlobalState";
@@ -167,15 +167,6 @@ const Icon4 = styled(FaCubes)`
 		color: #7638ff;
 	}
 `;
-const Icon5 = styled(FaFilePdf)`
-	margin-left: 20px;
-	color: #aaa;
-	font-size: 18px;
-
-	:active {
-		color: #7638ff;
-	}
-`;
 const Icon6 = styled(MdInventory)`
 	margin-left: 20px;
 	color: #aaa;
@@ -194,4 +185,3 @@ const Icon7 = styled(MdSettings)`
 		color: #7638ff;
 	}
 `;
-const Icon8 = styled.div``;

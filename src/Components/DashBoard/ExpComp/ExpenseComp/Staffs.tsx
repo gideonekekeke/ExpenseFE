@@ -1,5 +1,7 @@
+
 import axios from "axios";
 import { useEffect, useState } from "react";
+
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { userDecode } from "../../../Global/GlobalState";
@@ -53,6 +55,7 @@ const Staffs = () => {
       </Wrapper>
     </Container>
   );
+
 };
 
 export default Staffs;
