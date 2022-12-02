@@ -15,8 +15,8 @@ const ExpenseData = () => {
   const [sales, setSales] = useState([]);
 
   const getAll = async () => {
-    const newURL = `${url}/api/sales/${user._id}/history`;
-    await axios.get(newURL).then((res) => {
+    const newURL = `${url}/api/sales/${user._id}/record`;
+    await axios.patch(newURL).then((res) => {
       setSales(res.data.data);
     });
   };
