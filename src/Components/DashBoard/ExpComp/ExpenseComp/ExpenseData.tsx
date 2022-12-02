@@ -10,17 +10,27 @@ import { useRecoilValue } from "recoil";
 
 const url = "https://event-3p90.onrender.com";
 
+interface iData {
+  _id: string;
+  submittedBy: string;
+  image: string;
+  totalExpense: number;
+  totalSales: number;
+  hubName: string;
+  date: string;
+  profit: number;
+}
+
 const ExpenseData = () => {
   const user = useRecoilValue(userDecode);
-  const [sales, setSales] = useState([]);
+  const [sales, setSales] = useState([] as iData[]);
 
   const getAll = async () => {
     const newURL = `${url}/api/sales/${user._id}/record`;
     await axios.patch(newURL).then((res) => {
-      setSales(res.data.data);
+      setSales(res.data.data.salesRecord);
     });
   };
-  console.log(sales);
   useEffect(() => {
     getAll();
   }, []);
@@ -111,45 +121,48 @@ const ExpenseData = () => {
             </HoldHead>{" "}
           </Th>
         </Head>
-        <Body>
-          <Td>Advertising</Td>
-          <Td>
-            <UserHold>
-              <span>
-                <Image />
-              </span>
-              Barbara Moore
-            </UserHold>
-          </Td>
-          <Td>18 Nov 2020</Td>
-          <Td>This is now approved...</Td>
-          <Td>$22.2 </Td>
-          <Td>$22.2 </Td>
-          <Td>$22.2 </Td>
-          <Td>
-            <Button bd="" cl="ff">
-              Approved
-            </Button>{" "}
-          </Td>
-          <Td>
-            <Hold>
-              <NavLink to="/editExpense" style={{ textDecoration: "none" }}>
-                <Button bd="fff" cl="ff">
-                  <span>
-                    <FaRegEdit />
-                  </span>
-                  Edit
-                </Button>
-              </NavLink>
-              <Button bd="ff" cl="">
+
+        {sales?.map((props) => (
+          <Body key={props._id}>
+            <Td>{props.hubName}</Td>
+            <Td>
+              <UserHold>
                 <span>
-                  <BsTrash />
+                  <Image src={props.image} />
                 </span>
-                Delete
-              </Button>
-            </Hold>
-          </Td>
-        </Body>
+                {props.submittedBy}
+              </UserHold>
+            </Td>
+            <Td>{props.date}</Td>
+            <Td>This is now approved...</Td>
+            <Td> ₦{props.profit} </Td>
+            <Td> ₦{props.totalSales} </Td>
+            <Td> ₦{props.totalExpense} </Td>
+            <Td>
+              <Button bd="" cl="ff">
+                Approved
+              </Button>{" "}
+            </Td>
+            <Td>
+              <Hold>
+                <NavLink to="/editExpense" style={{ textDecoration: "none" }}>
+                  <Button bd="fff" cl="ff">
+                    <span>
+                      <FaRegEdit />
+                    </span>
+                    Edit
+                  </Button>
+                </NavLink>
+                <Button bd="ff" cl="">
+                  <span>
+                    <BsTrash />
+                  </span>
+                  Delete
+                </Button>
+              </Hold>
+            </Td>
+          </Body>
+        ))}
       </Buttom>
     </Container>
   );
@@ -169,6 +182,7 @@ const Image = styled.img`
   border-radius: 50%;
   background-color: gold;
   margin-right: 10px;
+  object-fit: cover;
 `;
 const Button = styled.button<{ bd: string; cl: string }>`
   padding: 7px 20px;
