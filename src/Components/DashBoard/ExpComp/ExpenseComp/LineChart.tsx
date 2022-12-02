@@ -54,7 +54,7 @@ export const data = {
 	],
 };
 
-const LineChart = () => {
+const LineChart: React.FC = () => {
 	return (
 		<div
 			style={{

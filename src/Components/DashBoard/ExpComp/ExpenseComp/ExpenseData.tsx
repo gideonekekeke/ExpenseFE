@@ -29,7 +29,7 @@ const ExpenseData = () => {
     <Container>
       <Buttom>
         <Head>
-          <Th size="250px" bg="">
+          <Th>
             <HoldHead>
               Center{" "}
               <span>
@@ -38,16 +38,16 @@ const ExpenseData = () => {
               </span>
             </HoldHead>
           </Th>
-          <Th size="250px" bg="">
+          <Th>
             <HoldHead>
-              Staff{" "}
+              Staff Report{" "}
               <span>
                 <FaLongArrowAltUp color="lightgray" />
                 <FaLongArrowAltDown color="lightgray" />
               </span>
             </HoldHead>
           </Th>
-          <Th size="250px" bg="">
+          <Th>
             <HoldHead>
               Report Date{" "}
               <span>
@@ -56,7 +56,7 @@ const ExpenseData = () => {
               </span>
             </HoldHead>
           </Th>
-          <Th size="250px" bg="">
+          <Th>
             <HoldHead>
               Notes{" "}
               <span>
@@ -65,7 +65,7 @@ const ExpenseData = () => {
               </span>
             </HoldHead>
           </Th>
-          <Th size="250px" bg="">
+          <Th>
             <HoldHead>
               Profit{" "}
               <span>
@@ -74,7 +74,7 @@ const ExpenseData = () => {
               </span>
             </HoldHead>
           </Th>
-          <Th size="250px" bg="">
+          <Th>
             <HoldHead>
               Total Sales{" "}
               <span>
@@ -83,7 +83,7 @@ const ExpenseData = () => {
               </span>
             </HoldHead>
           </Th>
-          <Th size="250px" bg="">
+          <Th>
             <HoldHead>
               Total Expense{" "}
               <span>
@@ -92,7 +92,7 @@ const ExpenseData = () => {
               </span>
             </HoldHead>
           </Th>
-          <Th size="250px" bg="">
+          <Th>
             <HoldHead>
               Status{" "}
               <span>
@@ -101,7 +101,7 @@ const ExpenseData = () => {
               </span>
             </HoldHead>
           </Th>
-          <Th size="250px" bg="">
+          <Th>
             <HoldHead>
               Action{" "}
               <span>
@@ -112,10 +112,8 @@ const ExpenseData = () => {
           </Th>
         </Head>
         <Body>
-          <Td bg="" size="250px">
-            Advertising
-          </Td>
-          <Td bg="" size="250px">
+          <Td>Advertising</Td>
+          <Td>
             <UserHold>
               <span>
                 <Image />
@@ -123,27 +121,17 @@ const ExpenseData = () => {
               Barbara Moore
             </UserHold>
           </Td>
-          <Td bg="" size="250px">
-            18 Nov 2020
-          </Td>
-          <Td bg="" size="250px">
-            This is now approved...
-          </Td>
-          <Td bg="" size="">
-            $22.2{" "}
-          </Td>
-          <Td bg="" size="100px">
-            $22.2{" "}
-          </Td>
-          <Td bg="" size="100px">
-            $22.2{" "}
-          </Td>
-          <Td bg="" size="250px">
+          <Td>18 Nov 2020</Td>
+          <Td>This is now approved...</Td>
+          <Td>$22.2 </Td>
+          <Td>$22.2 </Td>
+          <Td>$22.2 </Td>
+          <Td>
             <Button bd="" cl="ff">
               Approved
             </Button>{" "}
           </Td>
-          <Td bg="" size="250px">
+          <Td>
             <Hold>
               <NavLink to="/editExpense" style={{ textDecoration: "none" }}>
                 <Button bd="fff" cl="ff">
@@ -191,7 +179,8 @@ const Button = styled.button<{ bd: string; cl: string }>`
   color: ${({ cl }) => (cl ? "#109f10" : "red")};
   font-weight: 600;
   cursor: pointer;
-
+  font-size: 12px;
+  font-family: Poppins;
   span {
     margin-left: 3px;
   }
@@ -201,8 +190,6 @@ const HoldHead = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 230px;
-  /* padding-left: 30px; */
 `;
 const UserHold = styled.div`
   display: flex;
@@ -213,33 +200,31 @@ const UserHold = styled.div`
   }
   cursor: pointer;
 `;
-const Td = styled.td<{ bg: string; size: string }>`
-  padding: 10px 10px;
-  font-size: 16px;
-  width: ${({ size }) => size};
+const Td = styled.td`
+  padding: 10px 15px;
+  font-size: 12px;
   font-weight: 400;
-  background-color: ${({ bg }) => bg};
+  width: 250px;
   border-left: 1px solid;
-  border-color: rgba(0, 0, 0, 0.2);
-  margin: 0 5px;
+  border-right: 1px solid;
+  border-color: rgba(0, 0, 0, 0.1);
 `;
-const Th = styled.th<{ size: string; bg: string }>`
-  width: ${({ size }) => size};
-  background-color: ${({ bg }) => bg};
+const Th = styled.th`
   padding: 10px 10px;
   background-color: #f8f9fa;
+  width: 250px;
+  /* #f8f9fa */
   color: #1b2559;
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 600;
   text-align: start;
-  width: 250px;
+  // border: 1px solid black;
 `;
 const Head = styled.tr`
   border-bottom: 1px solid lightgray;
 `;
 const Body = styled.tr`
   border-bottom: 1px solid lightgray;
-
   :hover {
     background-color: lightgray;
   }

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FaPlay } from "react-icons/fa";
 
-const LastComp = () => {
+const LastComp: React.FC = () => {
 	return (
 		<Container>
 			<h1>

@@ -1,12 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import ChartComp from "./ChartComp";
 import RecentComp from "./RecentComp";
 import { FaDollarSign, FaFilePdf } from "react-icons/fa";
 import { MdGroup, MdInventory } from "react-icons/md";
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
 	return (
 		<div>
 			<Container>
@@ -199,11 +198,6 @@ const Mid = styled.div`
 	justify-content: space-between;
 	flex-direction: row;
 	border-radius: 10px;
-`;
-const Yellow = styled.div`
-	background-color: orange;
-	width: 60%;
-	height: 100%;
 `;
 const Skyblue = styled.div`
 	background-color: skyblue;

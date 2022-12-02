@@ -15,7 +15,7 @@ import CompanyDesides from "../Auth/Staff/CompanyDesides";
 import StaffForgotPasswords from "../Auth/Staff/StaffForgotPassword";
 import StaffResetPassword from "../Auth/Staff/StaffResetPassword";
 
-const AuthRoutes = () => {
+const AuthRoutes: React.FC = () => {
 	let element = useRoutes([
 		{
 			path: "/auth",
