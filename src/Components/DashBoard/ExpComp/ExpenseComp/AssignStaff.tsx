@@ -11,9 +11,15 @@ import LoadingState from "../../../../LoadingScreen";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userDecode } from "../../../Global/GlobalState";
 
+interface iHubInfo {
+  _id: string;
+  name: string;
+}
+
 interface Iprops {
   ToggleStaff: () => void;
   getID: string;
+  name: string;
 }
 
 interface iData {
@@ -27,16 +33,16 @@ interface iStaff {
 }
 
 const url = "https://event-3p90.onrender.com";
-// const url = "http://localhost:2233";
 
-const AssignStaff: React.FC<Iprops> = ({ ToggleStaff, getID }) => {
+const AssignStaff: React.FC<Iprops> = ({ ToggleStaff, getID, name }) => {
   const [readStaff, setReadStaff] = useState([] as iStaff[]);
 
   const naviage = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [val, setVal] = useState<string>("");
   const user = useRecoilValue(userDecode);
   const yupSchema = yup.object().shape({
-    userName: yup.string().required("This field has to be filled"),
+    // userName: yup.string().required("This field has to be filled"),
   });
 
   const {
@@ -48,21 +54,21 @@ const AssignStaff: React.FC<Iprops> = ({ ToggleStaff, getID }) => {
     resolver: yupResolver(yupSchema),
   });
 
-  console.log("hub ID: ", getID);
-
   const onSubmit: SubmitHandler<iData> = async (data) => {
     const newURL = `${url}/api/hub/${user._id}/${getID}/assign`;
-    const { userName } = data;
+    const newURL2 = `${url}/api/hub/${user._id}/${getID}/reset`;
 
     setLoading(true);
 
+    await axios.patch(newURL2);
+
     await axios
-      .post(newURL, { userName })
+      .post(newURL, { userName: val })
       .then((res) => {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: res.data.mesage,
+          title: `Staff has been added at ${name} center`,
           showConfirmButton: false,
           timer: 2500,
         }).then(() => {
@@ -93,7 +99,7 @@ const AssignStaff: React.FC<Iprops> = ({ ToggleStaff, getID }) => {
   useEffect(() => {
     getState();
   }, []);
-
+  console.log(val);
   return (
     <>
       {loading ? <LoadingState /> : null}
@@ -110,19 +116,22 @@ const AssignStaff: React.FC<Iprops> = ({ ToggleStaff, getID }) => {
                   <div></div>
                   <ImCancelCircle onClick={ToggleStaff} />
                 </Cancel>
-                <h3> Idewu Center Hub </h3>
+                <h3> Adding staff for, {name} Center </h3>
 
                 <span>
-                  Note : You can assign a staff that has already been attached
+                  Note : You can't assign a staff that has already been attached
                   to a hub
                 </span>
 
                 <Hold>
                   <Input
-                    placeholder="Enter name of your staff"
-                    {...register("userName")}
+                    placeholder={val === "" ? "Enter name of your staff" : val}
+                    // {...register("userName")}
+                    value={val}
+                    // onChange={() => {
+
+                    // }}
                   />
-                  {/* <button>Search</button> */}
                   <Error>
                     {errors.userName && "user name isn't in your payroll"}
                   </Error>
@@ -131,7 +140,14 @@ const AssignStaff: React.FC<Iprops> = ({ ToggleStaff, getID }) => {
 
                 {readStaff.map((props) => (
                   <DropItem bg="" key={props._id}>
-                    {/* <input type="radio" id="item1" value="Issace success" /> */}
+                    <input
+                      type="radio"
+                      id="item1"
+                      value={val}
+                      onChange={(e) => {
+                        setVal(props.userName);
+                      }}
+                    />
                     <Label htmlFor="subscribeNews">
                       <DivCan>
                         <ImaCan src={props.userImage} />
@@ -259,7 +275,7 @@ const Container = styled.div`
   height: 100vh;
   position: fixed;
   width: 200vw;
-  z-index: 999;
+  z-index: 9;
   backdrop-filter: blur(5px);
   transition: all 350ms;
 

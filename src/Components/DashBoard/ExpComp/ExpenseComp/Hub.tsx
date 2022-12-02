@@ -12,6 +12,11 @@ interface iHub {
   _id?: string;
   name?: string;
   staff?: string;
+  hubToken?: string;
+}
+interface iHubInfo {
+  _id?: string;
+  name?: string;
 }
 
 const Hub: React.FC = () => {
@@ -22,6 +27,7 @@ const Hub: React.FC = () => {
 
   const [hubData, setHubData] = useState([] as iHub[]);
   const [getID, setGetID] = useState<string>("");
+  const [name, setName] = useState<string>("");
 
   const getHub = async () => {
     const newURL = `${url}/api/hub/${user._id}/hubs`;
@@ -55,12 +61,20 @@ const Hub: React.FC = () => {
               <HubName>{props.name}</HubName>
               <HubStaff>
                 {" "}
-                <strong>Staff:</strong>{" "}
+                <strong style={{ marginRight: "5px" }}>Staff:</strong>{" "}
                 {props.staff ? (
                   <div>{props.staff}</div>
                 ) : (
-                  <div style={{ fontSize: "12px" }}>No staff assigned yet!</div>
+                  <div style={{ fontSize: "12px", marginTop: "3px" }}>
+                    No staff assigned yet!
+                  </div>
                 )}
+              </HubStaff>
+              <Space />
+              <HubStaff>
+                {" "}
+                <strong style={{ marginRight: "5px" }}>Hub Token:</strong>{" "}
+                {props.hubToken}
               </HubStaff>
               <br />
               <br />
@@ -68,6 +82,7 @@ const Hub: React.FC = () => {
                 onClick={() => {
                   ToggleStaff();
                   setGetID(props._id!);
+                  setName(props.name!);
                 }}
               >
                 View details
@@ -79,13 +94,16 @@ const Hub: React.FC = () => {
 
       {toggleCreate ? <CreateHub ToggleCreate={ToggleCreate} /> : null}
       {toggleStaff ? (
-        <AssignStaff ToggleStaff={ToggleStaff} getID={getID} />
+        <AssignStaff ToggleStaff={ToggleStaff} getID={getID} name={name} />
       ) : null}
     </Container>
   );
 };
 
 export default Hub;
+const Space = styled.div`
+  margin-top: 5px;
+`;
 const Container = styled.div`
   /* width: 100%; */
   width: calc(100vw - 190px);
@@ -188,4 +206,7 @@ const HubName = styled.div`
   font-size: 24px;
   margin-bottom: 10px;
 `;
-const HubStaff = styled.div``;
+const HubStaff = styled.div`
+  display: flex;
+  align-items: center;
+`;
