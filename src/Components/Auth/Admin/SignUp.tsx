@@ -19,7 +19,7 @@ interface iData {
 }
 
 const url = "https://event-3p90.onrender.com";
-const url2 = "http://localhost:2233";
+// const url2 = "http://localhost:2233";
 
 const SignUp: React.FC = () => {
 	const naviage = useNavigate();
@@ -63,8 +63,6 @@ const SignUp: React.FC = () => {
 		await axios
 			.post(`${url}/api/company/create`, formData)
 			.then((res) => {
-				console.log(res.data.data);
-
 				Swal.fire({
 					position: "center",
 					icon: "success",
@@ -77,7 +75,6 @@ const SignUp: React.FC = () => {
 				setLoading(false);
 			})
 			.catch((error) => {
-				console.log(error.response);
 				Swal.fire({
 					title: "Error Occured",
 					text: `${error.response?.data?.message}`,

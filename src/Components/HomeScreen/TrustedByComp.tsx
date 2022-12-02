@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-const TrustedByComp = () => {
+const TrustedByComp: React.FC = () => {
 	const settings = {
 		dots: true,
 		infinite: true,
@@ -70,31 +70,6 @@ const MainImage = styled.img`
 
 	@media screen and (max-width: 960px) {
 		height: 30px;
-	}
-`;
-
-const ButtonHold = styled.div`
-	display: flex;
-	align-items: center;
-	margin-top: 20px;
-`;
-
-const Button = styled.div<{ wd: string; bd: string; bg: string; cl: string }>`
-	height: 40px;
-	width: ${(props) => props.wd};
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: ${(props) => props.bg};
-	border: ${(props) => props.bd};
-	border-radius: 50px;
-	margin-left: 20px;
-	color: ${(props) => props.cl};
-	cursor: pointer;
-
-	:hover {
-		transform: scale(0.97);
-		transition: all 350ms;
 	}
 `;
 

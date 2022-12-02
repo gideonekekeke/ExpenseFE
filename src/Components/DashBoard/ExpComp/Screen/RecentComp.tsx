@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import RecentData from "./RecentData";
 
-const RecentComp = () => {
+const RecentComp: React.FC = () => {
 	return (
 		<Container>
 			<Card>
@@ -82,11 +82,7 @@ const RecentComp = () => {
 export default RecentComp;
 
 const Date = styled.div`
-	/* position: relative; */
 	width: 90%;
-	/* position: relative; */
-	/* background-color: chartreuse; */
-	/* padding: 0px 10px; */
 `;
 const Text = styled.div`
 	font-weight: 700;
@@ -138,19 +134,7 @@ const Card = styled.div`
 		width: 100%;
 	}
 `;
-const Carded = styled.div`
-	width: 350px;
-	border-radius: 10px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	background-color: white;
-	margin: 8px;
-	@media (max-width: 7680px) {
-		width: 100%;
-	}
-`;
+
 const Container = styled.div`
 	width: 98%;
 	min-height: 360px;
@@ -164,10 +148,7 @@ const Container = styled.div`
 
 	justify-content: center;
 `;
-const Input = styled.input`
-	border: 0px;
-	outline: none;
-`;
+
 const Search = styled.div`
 	display: flex;
 	align-items: center;

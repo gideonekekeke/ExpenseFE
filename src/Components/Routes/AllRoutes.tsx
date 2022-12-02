@@ -1,20 +1,15 @@
 import React from "react";
-import { useLocation, useRoutes } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 
-import HomeScreen from "../HomeScreen";
-import Header from "../HomeScreen/Header";
-// import SignUpMessage from "../Auth/Admin/SignUpMessage";
 import Dashboard from "../DashBoard/ExpComp/Screen/Dashboard";
-import ExpenseData from "../DashBoard/ExpComp/ExpenseComp/ExpenseData";
 import ExpComp from "../DashBoard/ExpComp/ExpenseComp/ExpComp";
 import Staffs from "../DashBoard/ExpComp/ExpenseComp/Staffs";
 import Hub from "../DashBoard/ExpComp/ExpenseComp/Hub";
-import CreateHub from "../DashBoard/ExpComp/ExpenseComp/CreateHub";
 import PrivateRoute from "../Global/PrivateRoute";
 import StaffBoard from "../DashBoard/ExpComp/ExpenseComp/Staffs/StaffBoard";
 import NewInvoice from "../DashBoard/ExpComp/ExpenseComp/Staffs/NewInvoice";
 
-const AllRoutes = () => {
+const AllRoutes: React.FC = () => {
 	let element = useRoutes([
 		{
 			path: "/",
