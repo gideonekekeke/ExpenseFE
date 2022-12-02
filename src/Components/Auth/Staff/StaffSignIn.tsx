@@ -10,7 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { user, userDecode } from "../../Global/GlobalState";
-import { useRecoilValue, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import decode from "jwt-decode";
 
 interface iData {
@@ -19,7 +19,7 @@ interface iData {
 }
 
 const url = "https://event-3p90.onrender.com";
-const url2 = "http://localhost:2233";
+// const url2 = "http://localhost:2233";
 
 const StaffSignIn = () => {
 	const naviage = useNavigate();
@@ -66,7 +66,6 @@ const StaffSignIn = () => {
 				setLoading(false);
 			})
 			.catch((error) => {
-				console.log(error.response);
 				Swal.fire({
 					title: error.response.data.message,
 					text: `Please varify your account first`,

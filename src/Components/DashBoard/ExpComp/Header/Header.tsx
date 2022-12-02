@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { FaBars } from "react-icons/fa";
 import styled from "styled-components";
-import { FaCube, FaCubes, FaFilePdf } from "react-icons/fa";
+import { FaCube, FaCubes } from "react-icons/fa";
 import { MdDashboard, MdGroup, MdInventory, MdSettings } from "react-icons/md";
 import { BiSearch, BiChevronDown } from "react-icons/bi";
-import { BsChevronDown } from "react-icons/bs";
 import { MdOutlineNotifications } from "react-icons/md";
 import SlideComp from "./SlideComp";
 import { NavLink } from "react-router-dom";
-import decode from "jwt-decode";
 import { user, userDecode } from "../../../Global/GlobalState";
 import { useRecoilState, useRecoilValue } from "recoil";
 
@@ -18,8 +16,6 @@ const DashHeader = () => {
 	const myRef = useRef<HTMLDivElement>(null!);
 	const backRef = useRef<HTMLDivElement>(null!);
 	const users = useRecoilValue(userDecode);
-
-	console.log("this is the users", users);
 
 	const changeTrue = () => {
 		setChange(true);
@@ -32,7 +28,6 @@ const DashHeader = () => {
 		backRef.current.style.left = "-2000px";
 	};
 
-	console.log(change);
 	return (
 		<div>
 			<Container>
@@ -93,7 +88,6 @@ const DashHeader = () => {
 						<Hold
 							onClick={() => {
 								setUserData(null);
-								console.log("clicked in");
 							}}
 							to='/'>
 							<Icon7 />
@@ -115,7 +109,6 @@ const DashHeader = () => {
 								<Hold
 									onClick={() => {
 										setUserData(null);
-										console.log("clicked in");
 									}}
 									to='/'>
 									<Icon7 />
@@ -125,11 +118,6 @@ const DashHeader = () => {
 						) : null}
 					</>
 				)}
-				{/* 
-          <Hold>
-            <MdLogout color="#aaa" fontSize="18px" cursor="pointer" />
-            <Write>Logout</Write>
-          </Hold> */}
 			</Side>
 			<Back ref={backRef}>
 				<SideHold ref={myRef}>
@@ -285,15 +273,6 @@ const Icon3 = styled(FaCube)`
 	}
 `;
 const Icon4 = styled(FaCubes)`
-	margin-left: 20px;
-	color: #aaa;
-	font-size: 18px;
-
-	:active {
-		color: #7638ff;
-	}
-`;
-const Icon5 = styled(FaFilePdf)`
 	margin-left: 20px;
 	color: #aaa;
 	font-size: 18px;

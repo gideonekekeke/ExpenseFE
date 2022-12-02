@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import DownCard from "./DownCard";
 
-const DownPutComps = () => {
+const DownPutComps: React.FC = () => {
 	return (
 		<Cont id='resource'>
 			<br />

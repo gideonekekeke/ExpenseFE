@@ -1,8 +1,9 @@
+import React from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { userDecode } from "../../../Global/GlobalState";
 
-const Staffs = () => {
+const Staffs: React.FC = () => {
 	const readUser = useRecoilValue(userDecode);
 	return (
 		<Container>

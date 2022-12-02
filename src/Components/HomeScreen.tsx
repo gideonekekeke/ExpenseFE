@@ -7,7 +7,7 @@ import LastComp from "./HomeScreen/LastComp";
 import Testimonial from "./HomeScreen/Testimonial";
 import TrustedByComp from "./HomeScreen/TrustedByComp";
 
-const HomeScreen = () => {
+const HomeScreen: React.FC = () => {
 	return (
 		<div style={{ overflow: "hidden" }}>
 			<HeroComp />

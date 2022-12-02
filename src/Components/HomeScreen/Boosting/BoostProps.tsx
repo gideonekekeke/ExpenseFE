@@ -104,14 +104,7 @@ const First = styled.div`
 		width: 90%;
 	}
 `;
-const Rated = styled.div`
-	margin-top: 20px;
-	font-size: 12px;
-	display: flex;
-	align-items: center;
-	color: gray;
-`;
-const Icon = styled.div``;
+
 const Second = styled.div<{ mr: string; ml: string }>`
 	height: 450px;
 	width: 500px;
