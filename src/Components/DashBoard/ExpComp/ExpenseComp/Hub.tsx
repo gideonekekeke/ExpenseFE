@@ -9,7 +9,6 @@ import axios from "axios";
 const url = "https://event-3p90.onrender.com";
 
 interface iHub {
-
   _id?: string;
   name?: string;
   staff?: string;
@@ -79,15 +78,19 @@ const Hub: React.FC = () => {
               </HubStaff>
               <br />
               <br />
-              <button
-                onClick={() => {
-                  ToggleStaff();
-                  setGetID(props._id!);
-                  setName(props.name!);
-                }}
-              >
-                View details
-              </button>
+              <div style={{ display: "flex" }}>
+                <button>View details</button>
+
+                <button
+                  onClick={() => {
+                    ToggleStaff();
+                    setGetID(props._id!);
+                    setName(props.name!);
+                  }}
+                >
+                  Change Staff
+                </button>
+              </div>
             </HubsCard>
           ))}
         </HubsCardCtrl>
@@ -99,7 +102,6 @@ const Hub: React.FC = () => {
       ) : null}
     </Container>
   );
-
 };
 
 export default Hub;
@@ -107,106 +109,107 @@ const Space = styled.div`
   margin-top: 5px;
 `;
 const Container = styled.div`
-	/* width: 100%; */
-	width: calc(100vw - 190px);
-	min-height: calc(100vh - 60px);
-	display: flex;
-	justify-content: center;
-	/* align-items: flex-end; */
-	background-color: #f8f9fa;
-	/* background-color: gold; */
-	overflow: hidden;
-	position: absolute;
-	right: 0px;
-	top: 50px;
+  /* width: 100%; */
+  width: calc(100vw - 190px);
+  min-height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
+  /* align-items: flex-end; */
+  background-color: #f8f9fa;
+  /* background-color: gold; */
+  overflow: hidden;
+  position: absolute;
+  right: 0px;
+  top: 50px;
 
-	@media screen and (max-width: 1100px) {
-		width: 95%;
-	}
-	@media screen and (max-width: 1005px) {
-		width: 100%;
-	}
+  @media screen and (max-width: 1100px) {
+    width: 95%;
+  }
+  @media screen and (max-width: 1005px) {
+    width: 100%;
+  }
 
-	/* background-color: #352b1e; */
+  /* background-color: #352b1e; */
 `;
 
 const Wrapper = styled.div`
-	width: 85%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-top: 20px;
-	@media (max-width: 500px) {
-		width: 90%;
-	}
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  @media (max-width: 500px) {
+    width: 90%;
+  }
 `;
 
 const HubsTitle = styled.div`
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	button {
-		height: 30px;
-		width: 150px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-family: poppins;
-		background-color: #087cc5;
-		border: none;
-		outline: none;
-		color: #fff;
-		font-weight: 600;
-		border-radius: 4px;
-		transition: all 350ms;
-		cursor: pointer;
-		:hover {
-			transform: scale(0.94);
-		}
-	}
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  button {
+    height: 30px;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: poppins;
+    background-color: #087cc5;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: all 350ms;
+    cursor: pointer;
+    :hover {
+      transform: scale(0.94);
+    }
+  }
 `;
 
 const HubsCardCtrl = styled.div`
-	display: flex;
-	flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 `;
 const HubsCard = styled.div`
-	height: 200px;
-	width: 220px;
-	background-color: aliceblue;
-	border-radius: 3px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin: 10px;
-	box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  height: 200px;
+  width: 220px;
+  background-color: aliceblue;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
 
-	button {
-		height: 30px;
-		width: 150px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-family: poppins;
-		background-color: #087cc5;
-		border: none;
-		outline: none;
-		color: #fff;
-		font-weight: 600;
-		border-radius: 4px;
-		transition: all 350ms;
-		cursor: pointer;
-		:hover {
-			transform: scale(0.94);
-		}
-	}
+  button {
+    height: 30px;
+    width: 96px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: poppins;
+    background-color: #087cc5;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    transition: all 350ms;
+    margin: 0 5px;
+    cursor: pointer;
+    :hover {
+      transform: scale(0.94);
+    }
+  }
 `;
 const HubName = styled.div`
-	font-weight: 800;
-	font-size: 24px;
-	margin-bottom: 10px;
+  font-weight: 800;
+  font-size: 24px;
+  margin-bottom: 10px;
 `;
 const HubStaff = styled.div`
   display: flex;
