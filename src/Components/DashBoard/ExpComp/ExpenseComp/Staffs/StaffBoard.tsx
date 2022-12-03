@@ -19,10 +19,10 @@ interface iData {
 
 interface iDataHub {
   _id?: string;
-  name?: string;
-  staff?: string;
-  createdAt?: string;
-  hubToken?: string;
+  HubName?: string;
+  staffImage?: string;
+  staffName?: string;
+  date?: string;
   hub?: [];
 }
 
@@ -30,7 +30,8 @@ const url = "https://event-3p90.onrender.com";
 const StaffBoard = () => {
   const user = useRecoilValue(userDecode);
   const [staffData, setStaffData] = useState({} as iData);
-  const [staffDataHub, setStaffDataHub] = useState({} as iData[]);
+
+  const [staffDataHub, setStaffDataHub] = useState([] as iDataHub[]);
 
   const getStaff = async () => {
     const newURL = `${url}/api/hub/${user._id}/hubstaff`;
@@ -40,22 +41,15 @@ const StaffBoard = () => {
   };
 
   const getStaffHub = async () => {
-    const newURL = `${url}/api/staff/${user._id}`;
+    const newURL = `${url}/api/staff/${user._id}/gethub`;
     await axios.get(newURL).then((res) => {
       setStaffDataHub(res.data.data.hub);
     });
   };
 
-  let id: any[];
-
   useEffect(() => {
     getStaff();
     getStaffHub();
-
-    for (let i in staffDataHub) {
-      id.push("data");
-      console.log(staffDataHub[i]);
-    }
   }, []);
 
   return (
@@ -117,21 +111,24 @@ const StaffBoard = () => {
         </RowOne>
         <Title>Today's Update</Title>
         <StaffCard>
-          {/* {
-		  staffDataHub?.map((props, i) => (
-            <StaffHub key={props._id} id={props._id} />
-            // <div>data: {props}</div>
-          ))} */}
+          {/* {staffDataHub.hub.map()} */}
+          {staffDataHub?.map((props, i) => (
+            <CardHold key={props._id}>
+              <ImageBox src={props.staffImage} />
 
-          {/* <CardHold>
-            <ImageBox>O</ImageBox>
-            <TopButtom>
-              <StaffName> {user.userName} </StaffName>
-              <Buttom>
-                <Detail>posted to {staffData.name}</Detail>
-              </Buttom>
-            </TopButtom>
-          </CardHold> */}
+              <TopButtom>
+                <StaffName> {props.staffName} </StaffName>
+                <Buttom>
+                  <Space />
+                  <Detail c="r">posted to {props.HubName}</Detail>
+                </Buttom>
+                <Space />
+                <Buttom>
+                  <Detail c="">posted to At {props.date}</Detail>
+                </Buttom>
+              </TopButtom>
+            </CardHold>
+          ))}
 
           <div></div>
         </StaffCard>
@@ -141,6 +138,10 @@ const StaffBoard = () => {
 };
 
 export default StaffBoard;
+
+const Space = styled.div`
+  margin-right: 20px;
+`;
 
 const Container = styled.div`
   /* width: 100%; */
@@ -239,7 +240,8 @@ const CardHold = styled.div`
   display: flex;
   margin: 15px 0;
 `;
-const ImageBox = styled.div`
+const ImageBox = styled.img`
+  object-fit: cover;
   height: 50px;
   width: 50px;
   background-color: skyblue;
@@ -277,9 +279,9 @@ const Buttom = styled.div`
   display: flex;
   align-items: center;
 `;
-const Detail = styled.div`
+const Detail = styled.div<{ c: string }>`
   font-size: 13px;
-  color: #7638ff;
+  color: ${({ c }) => (c ? "#7638ff" : "red")};
   font-weight: bold;
   margin-right: 20px;
 `;

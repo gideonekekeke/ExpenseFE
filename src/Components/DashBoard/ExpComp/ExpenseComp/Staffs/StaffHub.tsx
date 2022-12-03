@@ -5,7 +5,6 @@ interface iProps {
   id?: string;
 }
 const StaffHub: React.FC<iProps> = ({ id }) => {
-  console.log(id);
   return (
     <div>
       {" "}
