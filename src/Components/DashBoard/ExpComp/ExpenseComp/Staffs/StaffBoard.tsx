@@ -23,13 +23,15 @@ interface iDataHub {
   staffImage?: string;
   staffName?: string;
   date?: string;
+  hub?: [];
 }
 
 const url = "https://event-3p90.onrender.com";
 const StaffBoard = () => {
   const user = useRecoilValue(userDecode);
   const [staffData, setStaffData] = useState({} as iData);
-  const [staffDataHub, setStaffDataHub] = useState({} as iDataHub[]);
+
+  const [staffDataHub, setStaffDataHub] = useState([] as iDataHub[]);
 
   const getStaff = async () => {
     const newURL = `${url}/api/hub/${user._id}/hubstaff`;
@@ -49,8 +51,6 @@ const StaffBoard = () => {
     getStaff();
     getStaffHub();
   }, []);
-
-  console.log(staffDataHub);
 
   return (
     <Container>
@@ -111,6 +111,7 @@ const StaffBoard = () => {
         </RowOne>
         <Title>Today's Update</Title>
         <StaffCard>
+          {/* {staffDataHub.hub.map()} */}
           {staffDataHub?.map((props, i) => (
             <CardHold key={props._id}>
               <ImageBox src={props.staffImage} />
