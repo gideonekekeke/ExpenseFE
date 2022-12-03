@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -28,9 +27,9 @@ const Staffs = () => {
         {staffData.length >= 1 ? (
           <>
             <Title>My Staffs</Title>
-            {staffData?.map((props: any) => (
-              <StaffCard>
-                <CardHold>
+            <StaffCard>
+              {staffData?.map((props: any) => (
+                <CardHold key={props._id}>
                   <ImageBox>
                     <img src={props.userImage} />
                   </ImageBox>
@@ -42,8 +41,8 @@ const Staffs = () => {
                     </Buttom>
                   </TopButtom>
                 </CardHold>
-              </StaffCard>
-            ))}
+              ))}{" "}
+            </StaffCard>
           </>
         ) : (
           <EmptyStaff>
@@ -55,7 +54,6 @@ const Staffs = () => {
       </Wrapper>
     </Container>
   );
-
 };
 
 export default Staffs;
