@@ -55,6 +55,7 @@ const StaffBoard = () => {
     for (let i in staffDataHub) {
       id.push("data");
       console.log(staffDataHub[i]);
+      console.log(staffDataHub[i]);
     }
   }, []);
 
