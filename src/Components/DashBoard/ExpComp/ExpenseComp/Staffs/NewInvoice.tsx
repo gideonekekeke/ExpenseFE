@@ -1,56 +1,231 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useRecoilValue, useRecoilState } from "recoil";
+import * as yup from "yup";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import Swal from "sweetalert2";
+import axios from "axios";
+import LoadingState from "../../../../../LoadingScreen";
+import { useNavigate } from "react-router-dom";
+import {
+  salesReport,
+  totalReport,
+  userDecode,
+  expenseData,
+} from "../../../../Global/GlobalState";
+
+import numeral from "numeral";
+import SalesInput from "./SalesInput";
+import ExpenseRecord from "./ExpenseREcord";
+
+const url = "https://event-3p90.onrender.com";
+
+interface iItemData {
+  _id: string;
+  userName: string;
+  userImage: string;
+}
+
+interface iItem {
+  item: string;
+  status: string;
+  cost: number;
+  id: number;
+}
+
+interface iData {
+  _id?: string;
+  name?: string;
+  staff?: string;
+  createdAt?: string;
+  hubToken?: string;
+}
 
 const NewInvoice = () => {
+  const naviage = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [token, setToken] = useState<string>("");
+  const [val, setVal] = useState<string>("");
+
+  const [expense, setExpense] = useState<number>(0);
+  const [sales, setSales] = useState<number>(0);
+
+  const user = useRecoilValue(userDecode);
+
+  const [expenseItemData, setExpenseItemData] = useRecoilState(expenseData);
+  const [totalItem, setTotalItem] = useRecoilState(totalReport);
+  const [myItem, setMytem] = useRecoilState(salesReport);
+
+  const [staffData, setStaffData] = useState({} as iData);
+  const getTotal = useRecoilValue(totalReport);
+
+  const yupSchema = yup.object().shape({
+    cost: yup.number().required("This field has to be filled"),
+    item: yup.string().required("This field has to be filled"),
+  });
+
+  const { reset, handleSubmit } = useForm<iItem>({
+    resolver: yupResolver(yupSchema),
+  });
+
+  const getStaff = async () => {
+    const newURL = `${url}/api/hub/${user._id}/hubstaff`;
+    await axios.get(newURL).then((res) => {
+      setStaffData(res.data.data);
+    });
+  };
+
+  const updateSales = async () => {
+    // const newURL = `${url}/api/sales/${hubID}/${user._id}/create`;
+    const newURL = `${url}/api/sales/${staffData._id}/${user._id}/create`;
+    await axios
+      .post(newURL, { totalExpense: expense, totalSales: sales })
+      .then((res) => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: `Sales Report as been submitted`,
+          showConfirmButton: false,
+          timer: 2500,
+        }).then(() => {
+          naviage(-1);
+        });
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.response);
+        Swal.fire({
+          title: error.response.data.message,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 3500,
+        }).then(() => {
+          setLoading(false);
+        });
+      });
+  };
+
+  useEffect(() => {
+    getStaff();
+    setExpense(
+      expenseItemData
+        .map((el: any) => el.cost)
+        .reduce((a: number, b: number) => {
+          return a + b;
+        })
+    );
+
+    setSales(
+      myItem
+        .map((el: any) => el.cost)
+        .reduce((a: number, b: number) => {
+          return a + b;
+        })
+    );
+  }, []);
+  console.log(expense);
+  console.log(sales);
+
   return (
     <Container>
+      {loading ? <LoadingState /> : null}
       <Wrapper>
-        <Title>Today's Invoice</Title>
-        <InputFieldsHold>
-          <ContHold>
-            <label>Invoice Field</label>
-            <InputDiv placeholder="e.g Cost Of Fuel" />
-          </ContHold>
-          <ContHold>
-            <label>Invoice Value</label>
-            <InputDiv placeholder="₦2,500" />
-          </ContHold>
-          <Button>Add Invoice</Button>
-        </InputFieldsHold>
+        <Title>Today's Report for {staffData.name}</Title>
+        <Holder>
+          <div style={{ margin: "10px" }}>
+            <ExpenseRecord title="Enter Expense" bg="red" />
+          </div>
+          <div style={{ margin: "10px" }}>
+            <SalesInput title="Enter Sales" bg=" green" />
+          </div>
+        </Holder>
         <InvoiceDisplay>
           <InvoiceCard>
-            <CardHold>
-              <ImageBox>c</ImageBox>
-              <TopButtom>
-                <ProductTitle>Cost Of Fuel</ProductTitle>
-                <hr
-                  style={{
-                    height: "90%",
-                  }}
-                />
-                <Buttom>
-                  <Price>₦2,500</Price>
-                </Buttom>
-              </TopButtom>
-            </CardHold>
+            {getTotal.map((props: iItem) => (
+              <CardHold key={props.id}>
+                {props.status === "expense" ? (
+                  <ImageBox bg="">
+                    {props.status.charAt(0).toUpperCase()}
+                  </ImageBox>
+                ) : (
+                  <ImageBox bg="f">
+                    {props.status.charAt(0).toUpperCase()}
+                  </ImageBox>
+                )}
+                <TopButtom>
+                  <ProductTitle>{props.item}</ProductTitle>
+                  {/* <hr
+                    style={{
+                      height: "90%",
+                    }}
+                  /> */}
+                  <Buttom>
+                    <Price>
+                      {props.status === "expense" ? (
+                        <div style={{ color: "red" }}>
+                          ₦{numeral(props.cost).format("0,0")}
+                        </div>
+                      ) : (
+                        <div style={{ color: "green" }}>
+                          ₦{numeral(props.cost).format("0,0")}
+                        </div>
+                      )}
+                    </Price>
+                  </Buttom>
+                </TopButtom>
+              </CardHold>
+            ))}
           </InvoiceCard>
-          <InvoiceCard>
-            <CardHold>
-              <ImageBox>r</ImageBox>
-              <TopButtom>
-                <ProductTitle>Repair of Fan</ProductTitle>
-                <hr
-                  style={{
-                    height: "90%",
-                  }}
-                />
-                <Buttom>
-                  <Price>₦3,700</Price>
-                </Buttom>
-              </TopButtom>
-            </CardHold>
-          </InvoiceCard>
-          <Button>Update Total Invoice</Button>
+
+          <InputFieldsHold></InputFieldsHold>
+
+          <InputFieldsHold>
+            <Holder>
+              <div style={{ margin: "10px" }}>
+                Total Expenses Made so for is:{" "}
+                <strong>₦{numeral(expense).format("0,0")}</strong>
+              </div>
+              <div style={{ margin: "10px" }}>
+                Total Sales Made so for is:{" "}
+                <strong>₦{numeral(sales).format("0,0")}</strong>
+              </div>
+            </Holder>
+          </InputFieldsHold>
+          <ContHold>
+            <label>Enter Hub Token</label>
+            <InputDiv
+              placeholder=" hubToken: 2e89"
+              value={token}
+              onChange={(e) => {
+                setToken(e.target.value);
+              }}
+            />
+          </ContHold>
+          {staffData.hubToken === token ? (
+            <Button
+              onClick={() => {
+                setMytem([]);
+                setTotalItem([]);
+                setExpenseItemData([]);
+                updateSales();
+              }}
+            >
+              Submit Today's Report
+            </Button>
+          ) : (
+            <Button
+              disabled
+              onClick={() => {
+                setMytem([]);
+                setTotalItem([]);
+                setExpenseItemData([]);
+                updateSales();
+              }}
+            >
+              Enter the Right Token to Submit Today's Report
+            </Button>
+          )}
         </InvoiceDisplay>
       </Wrapper>
     </Container>
@@ -58,6 +233,20 @@ const NewInvoice = () => {
 };
 
 export default NewInvoice;
+
+const Holder = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const Error = styled.div`
+  font-size: 10px;
+  color: red;
+  display: flex;
+  justify-content: flex-end;
+  font-weight: 600;
+`;
 
 const Container = styled.div`
   /* width: 100%; */
@@ -100,7 +289,7 @@ const Title = styled.div`
   margin-bottom: 20px;
 `;
 
-const InputFieldsHold = styled.div`
+const InputFieldsHold = styled.form`
   margin-bottom: 30px;
 `;
 const ContHold = styled.div`
@@ -175,10 +364,10 @@ const CardHold = styled.div`
   display: flex;
   padding: 10px 0;
 `;
-const ImageBox = styled.div`
+const ImageBox = styled.div<{ bg: string }>`
   height: 40px;
   width: 40px;
-  background-color: #926efc;
+  background-color: ${({ bg }) => (bg ? "red" : "green")};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -187,6 +376,7 @@ const ImageBox = styled.div`
   border-radius: 50%;
   font-size: 25px;
   font-weight: 800;
+  color: white;
 
   img {
     width: 40px;
