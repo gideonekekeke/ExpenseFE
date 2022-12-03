@@ -95,6 +95,10 @@ const DashHeader = () => {
               <Icon4 />
               <Write>Hubs</Write>
             </Hold>
+            <Hold to="/staff-board/invoice">
+              <Icon4 />
+              <Write>Staff New Hub</Write>
+            </Hold>
 
             <Hold
               onClick={() => {
