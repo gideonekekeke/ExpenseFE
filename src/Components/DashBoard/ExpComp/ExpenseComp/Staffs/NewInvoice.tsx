@@ -36,10 +36,13 @@ interface iItem {
 
 interface iData {
   _id?: string;
+  id?: string;
   name?: string;
   staff?: string;
   createdAt?: string;
   hubToken?: string;
+  token?: string;
+  HubName?: string;
 }
 
 const NewInvoice = () => {
@@ -73,17 +76,18 @@ const NewInvoice = () => {
   });
 
   const getStaff = async () => {
+    // const newURL = `${url}/api/hub/${user._id}/hubstaff`;
     const newURL = `${url}/api/staff/${user._id}/gethubone`;
+
     await axios.get(newURL).then((res) => {
-      setStaffData(res.data.data);
+      setStaffData(res.data.data.hub[0]);
     });
   };
 
-  console.log(staffData);
+  console.log("HUB info: ", staffData);
 
   const updateSales = async () => {
-    // const newURL = `${url}/api/sales/${hubID}/${user._id}/create`;
-    const newURL = `${url}/api/sales/${staffData._id}/${user._id}/create`;
+    const newURL = `${url}/api/sales/${staffData.id}/${user._id}/create`;
     await axios
       .post(newURL, {
         totalExpense: expense,
@@ -137,7 +141,7 @@ const NewInvoice = () => {
           })
       );
     }
-  }, []);
+  }, [expenseItemData, myItem]);
   // console.log("expense: ", expense);
   // console.log("sales: ", myItem);
   // console.log("total: ", totalItem);
@@ -146,7 +150,7 @@ const NewInvoice = () => {
     <Container>
       {loading ? <LoadingState /> : null}
       <Wrapper>
-        <Title>Today's Report for {staffData.name}</Title>
+        <Title>Today's Report for {staffData.HubName}</Title>
         <Holder>
           <div style={{ margin: "10px" }}>
             <ExpenseRecord title="Enter Expense" bg="red" />
@@ -237,7 +241,7 @@ const NewInvoice = () => {
               </Button1>{" "}
             </div>
           </ContHold>
-          {staffData.hubToken === token ? (
+          {staffData.token === token ? (
             <Button
               bg="bdfer"
               onClick={() => {
