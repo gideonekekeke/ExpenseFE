@@ -8,64 +8,69 @@ import Hub from "../DashBoard/ExpComp/ExpenseComp/Hub";
 import PrivateRoute from "../Global/PrivateRoute";
 import StaffBoard from "../DashBoard/ExpComp/ExpenseComp/Staffs/StaffBoard";
 import NewInvoice from "../DashBoard/ExpComp/ExpenseComp/Staffs/NewInvoice";
+import HistoryHolder from "../DashBoard/ExpComp/ExpenseComp/Staffs/HistoryHolder";
 
 const AllRoutes: React.FC = () => {
-	let element = useRoutes([
-		{
-			path: "/",
-			element: (
-				<div>
-					<PrivateRoute />
-				</div>
-			),
-		},
-		{
-			path: "/admin-dashboard",
+  let element = useRoutes([
+    {
+      path: "/",
+      element: (
+        <div>
+          <PrivateRoute />
+        </div>
+      ),
+    },
+    {
+      path: "/admin-dashboard",
 
-			children: [
-				{
-					index: true,
-					element: <Dashboard />,
-				},
+      children: [
+        {
+          index: true,
+          element: <Dashboard />,
+        },
 
-				{
-					path: "expense",
-					element: <ExpComp />,
-				},
-				{
-					path: "staff",
-					element: <Staffs />,
-				},
+        {
+          path: "expense",
+          element: <ExpComp />,
+        },
+        {
+          path: "staff",
+          element: <Staffs />,
+        },
 
-				{
-					path: "hub",
+        {
+          path: "hub",
 
-					children: [
-						{
-							index: true,
-							element: <Hub />,
-						},
-					],
-				},
-			],
-		},
+          children: [
+            {
+              index: true,
+              element: <Hub />,
+            },
+          ],
+        },
+      ],
+    },
 
-		{
-			path: "staff-board",
-			children: [
-				{
-					index: true,
-					element: <StaffBoard />,
-				},
-				{
-					path: "invoice",
-					element: <NewInvoice />,
-				},
-			],
-		},
-	]);
+    {
+      path: "staff-board",
+      children: [
+        {
+          index: true,
+          element: <StaffBoard />,
+        },
+        {
+          path: "revenue",
+          element: <NewInvoice />,
+        },
+        {
+          path: "history",
+          element: <HistoryHolder />,
+        },
+      ],
+    },
+  ]);
 
-	return element;
+  return element;
 };
 
 export default AllRoutes;

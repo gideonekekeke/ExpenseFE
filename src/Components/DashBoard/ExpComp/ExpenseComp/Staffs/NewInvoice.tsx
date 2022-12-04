@@ -45,9 +45,12 @@ interface iData {
 const NewInvoice = () => {
   const naviage = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
+  const [toggle, setToggle] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
   const [val, setVal] = useState<string>("");
-
+  const [note, setNote] = useState<string>(
+    "The day went all nice and well... Wwe really Thank God for today's business sales and outcome! "
+  );
   const [expense, setExpense] = useState<number>(0);
   const [sales, setSales] = useState<number>(0);
 
@@ -70,17 +73,24 @@ const NewInvoice = () => {
   });
 
   const getStaff = async () => {
-    const newURL = `${url}/api/hub/${user._id}/hubstaff`;
+    const newURL = `${url}/api/staff/${user._id}/gethubone`;
     await axios.get(newURL).then((res) => {
       setStaffData(res.data.data);
     });
   };
 
+  console.log(staffData);
+
   const updateSales = async () => {
     // const newURL = `${url}/api/sales/${hubID}/${user._id}/create`;
     const newURL = `${url}/api/sales/${staffData._id}/${user._id}/create`;
     await axios
-      .post(newURL, { totalExpense: expense, totalSales: sales })
+      .post(newURL, {
+        totalExpense: expense,
+        totalSales: sales,
+        detail: getTotal,
+        note,
+      })
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -108,24 +118,29 @@ const NewInvoice = () => {
 
   useEffect(() => {
     getStaff();
-    setExpense(
-      expenseItemData
-        .map((el: any) => el.cost)
-        .reduce((a: number, b: number) => {
-          return a + b;
-        })
-    );
+    if (expenseItemData.length !== 0) {
+      setExpense(
+        expenseItemData
+          .map((el: any) => el.cost)
+          .reduce((a: number, b: number) => {
+            return a + b;
+          })
+      );
+    }
 
-    setSales(
-      myItem
-        .map((el: any) => el.cost)
-        .reduce((a: number, b: number) => {
-          return a + b;
-        })
-    );
+    if (myItem.length !== 0) {
+      setSales(
+        myItem
+          .map((el: any) => el.cost)
+          .reduce((a: number, b: number) => {
+            return a + b;
+          })
+      );
+    }
   }, []);
-  console.log(expense);
-  console.log(sales);
+  // console.log("expense: ", expense);
+  // console.log("sales: ", myItem);
+  // console.log("total: ", totalItem);
 
   return (
     <Container>
@@ -145,11 +160,11 @@ const NewInvoice = () => {
             {getTotal.map((props: iItem) => (
               <CardHold key={props.id}>
                 {props.status === "expense" ? (
-                  <ImageBox bg="">
+                  <ImageBox bg="t">
                     {props.status.charAt(0).toUpperCase()}
                   </ImageBox>
                 ) : (
-                  <ImageBox bg="f">
+                  <ImageBox bg="">
                     {props.status.charAt(0).toUpperCase()}
                   </ImageBox>
                 )}
@@ -192,29 +207,51 @@ const NewInvoice = () => {
               </div>
             </Holder>
           </InputFieldsHold>
+          <InputFieldsHold>
+            {toggle ? (
+              <InputArea
+                placeholder="Please enter a short description of how the day went..."
+                value={note}
+                onChange={(e: any) => {
+                  setNote(e.target.value);
+                }}
+              />
+            ) : null}
+          </InputFieldsHold>
           <ContHold>
             <label>Enter Hub Token</label>
-            <InputDiv
-              placeholder=" hubToken: 2e89"
-              value={token}
-              onChange={(e) => {
-                setToken(e.target.value);
-              }}
-            />
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <InputDiv
+                placeholder=" hubToken: 2e89"
+                value={token}
+                onChange={(e) => {
+                  setToken(e.target.value);
+                }}
+              />
+              <Button1
+                onClick={() => {
+                  setToggle(!toggle);
+                }}
+              >
+                Add Note
+              </Button1>{" "}
+            </div>
           </ContHold>
           {staffData.hubToken === token ? (
             <Button
+              bg="bdfer"
               onClick={() => {
+                updateSales();
                 setMytem([]);
                 setTotalItem([]);
                 setExpenseItemData([]);
-                updateSales();
               }}
             >
               Submit Today's Report
             </Button>
           ) : (
             <Button
+              bg=""
               disabled
               onClick={() => {
                 setMytem([]);
@@ -234,6 +271,19 @@ const NewInvoice = () => {
 
 export default NewInvoice;
 
+const InputArea = styled.textarea`
+  width: 95%;
+  border: 1px solid black;
+  border-radius: 10px;
+  min-height: 100px;
+  padding: 10px;
+  resize: none;
+  ::placeholder {
+    font-family: Poppins;
+  }
+  outline: none;
+  background-color: #926efc13;
+`;
 const Holder = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -323,7 +373,26 @@ const InputDiv = styled.input`
   }
 `;
 
-const Button = styled.button`
+const Button1 = styled.button`
+  height: 50px;
+  width: 100px;
+  border: none;
+  outline: none;
+  font-family: Montserrat;
+  font-weight: 700;
+  color: #fff;
+  background-color: #000;
+  border-radius: 3px;
+  margin-left: 10px;
+  transition: all 350ms;
+
+  :hover {
+    cursor: pointer;
+    transform: scale(1.015);
+  }
+`;
+
+const Button = styled.button<{ bg: string }>`
   height: 50px;
   width: 100%;
   border: none;
@@ -331,8 +400,7 @@ const Button = styled.button`
   font-family: Montserrat;
   font-weight: 700;
   color: #fff;
-  /* background-color: #377dff; */
-  background-color: #000;
+  background-color: ${({ bg }) => (bg ? "#000" : "gray")};
   border-radius: 3px;
   margin-top: 10px;
   transition: all 350ms;

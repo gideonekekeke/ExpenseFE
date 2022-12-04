@@ -5,8 +5,8 @@ import { BsTrash } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import axios from "axios";
-import { userDecode } from "../../../Global/GlobalState";
 import { useRecoilValue } from "recoil";
+import { userDecode } from "../../../../Global/GlobalState";
 import numeral from "numeral";
 
 const url = "https://event-3p90.onrender.com";
@@ -19,19 +19,22 @@ interface iData {
   totalSales: number;
   hubName: string;
   date: string;
+  note: string;
   profit: number;
 }
 
-const ExpenseData = () => {
+const SalesHistory = () => {
   const user = useRecoilValue(userDecode);
   const [sales, setSales] = useState([] as iData[]);
 
   const getAll = async () => {
-    const newURL = `${url}/api/sales/${user._id}/record`;
+    const newURL = `${url}/api/sales/${user._id}/saleshistory`;
     await axios.patch(newURL).then((res) => {
       setSales(res.data.data.salesRecord);
     });
   };
+
+  console.log(sales);
   useEffect(() => {
     getAll();
   }, []);
@@ -51,7 +54,7 @@ const ExpenseData = () => {
           </Th>
           <Th>
             <HoldHead>
-              Staff Report{" "}
+              Staff{" "}
               <span>
                 <FaLongArrowAltUp color="lightgray" />
                 <FaLongArrowAltDown color="lightgray" />
@@ -135,7 +138,7 @@ const ExpenseData = () => {
               </UserHold>
             </Td>
             <Td>{props.date}</Td>
-            <Td>This is now approved...</Td>
+            <Td>{props.note}</Td>
             <Td> ₦ {numeral(props.profit).format("0,0")} </Td>
             <Td> ₦{numeral(props.totalSales).format("0,0")} </Td>
             <Td> ₦{numeral(props.totalExpense).format("0,0")} </Td>
@@ -169,7 +172,7 @@ const ExpenseData = () => {
   );
 };
 
-export default ExpenseData;
+export default SalesHistory;
 
 const Container = styled.div`
   width: 100%;
@@ -177,6 +180,7 @@ const Container = styled.div`
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
 `;
+
 const Image = styled.img`
   width: 40px;
   height: 40px;

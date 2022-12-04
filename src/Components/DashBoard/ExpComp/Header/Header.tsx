@@ -119,9 +119,13 @@ const DashHeader = () => {
                   <Icon1 />
                   <Write>Dashboard</Write>
                 </Hold>
-                <Hold to="/staff-board/invoice">
+                <Hold to="/staff-board/revenue">
                   <Icon6 />
-                  <Write>Invoices</Write>
+                  <Write>Revenue Record</Write>
+                </Hold>
+                <Hold to="/staff-board/history">
+                  <Icon6 />
+                  <Write>History Record</Write>
                 </Hold>
                 <Hold
                   onClick={() => {
