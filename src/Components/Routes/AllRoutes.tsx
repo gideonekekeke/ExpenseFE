@@ -8,6 +8,8 @@ import Hub from "../DashBoard/ExpComp/ExpenseComp/Hub";
 import PrivateRoute from "../Global/PrivateRoute";
 import StaffBoard from "../DashBoard/ExpComp/ExpenseComp/Staffs/StaffBoard";
 import NewInvoice from "../DashBoard/ExpComp/ExpenseComp/Staffs/NewInvoice";
+import HistoryHolder from "../DashBoard/ExpComp/ExpenseComp/Staffs/HistoryHolder";
+import EditExpense from "../DashBoard/ExpComp/ExpenseComp/EditExpense";
 
 const AllRoutes: React.FC = () => {
 	let element = useRoutes([
@@ -31,6 +33,10 @@ const AllRoutes: React.FC = () => {
 				{
 					path: "expense",
 					element: <ExpComp />,
+				},
+				{
+					path: "expense/viewdetails/:id",
+					element: <EditExpense />,
 				},
 				{
 					path: "staff",
@@ -58,8 +64,12 @@ const AllRoutes: React.FC = () => {
 					element: <StaffBoard />,
 				},
 				{
-					path: "invoice",
+					path: "revenue",
 					element: <NewInvoice />,
+				},
+				{
+					path: "history",
+					element: <HistoryHolder />,
 				},
 			],
 		},

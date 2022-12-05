@@ -1,206 +1,222 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import RecentData from "./RecentData";
+import { FaRegEdit } from "react-icons/fa";
+import { BsTrash } from "react-icons/bs";
+import { NavLink } from "react-router-dom";
+import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
+import axios from "axios";
+import { userDecode } from "../../../Global/GlobalState";
+import { useRecoilValue } from "recoil";
+import numeral from "numeral";
 
-const RecentComp: React.FC = () => {
+const url = "https://event-3p90.onrender.com";
+
+interface iData {
+	_id: string;
+	submittedBy: string;
+	image: string;
+	totalExpense: number;
+	totalSales: number;
+	hubName: string;
+	date: string;
+	profit: number;
+}
+
+interface iData2 {
+	_id?: string;
+	name?: string;
+	staff?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	hubToken?: string;
+}
+
+const RecentComp = () => {
+	const [sales, setSales] = useState([] as iData[]);
+	const user = useRecoilValue(userDecode);
+	const [staffData, setStaffData] = useState({} as iData2);
+
+	const getAll = async () => {
+		const newURL = `${url}/api/sales/${user._id}/record`;
+		await axios.patch(newURL).then((res) => {
+			setSales(res.data.data.salesRecord);
+			// console.log("this is the salertgfd", sales);
+		});
+	};
+
+	const getStaff = async () => {
+		const newURL = `${url}/api/hub/${user._id}/hubstaff`;
+		await axios.get(newURL).then((res) => {
+			setStaffData(res.data.data);
+			console.log("getting all ", staffData);
+		});
+	};
+	useEffect(() => {
+		getAll();
+		getStaff();
+	}, []);
+
 	return (
 		<Container>
-			<Card>
-				<Top>
-					<Show>Recent Invoices</Show>
-					<Search>
-						<Button>View All</Button>
-					</Search>
-				</Top>
-				<Wrap>
-					<Mid>
-						<Yellow></Yellow>
-					</Mid>
-					<Hold>
-						<Cash>
-							<Circle></Circle>
-							<Text>Paid</Text>
-						</Cash>
-						<Cash>
-							<Circle></Circle>
-							<Text>Unpaid</Text>
-						</Cash>
-						<Cash>
-							<Circle></Circle>
-							<Text>Overdue</Text>
-						</Cash>
-						<br />
-						<Cash>
-							<Circle></Circle>
-							<Text>Draft</Text>
-						</Cash>
-					</Hold>
-				</Wrap>
-				<Date>
-					<RecentData />
-				</Date>
-			</Card>
-			<Card>
-				<Top>
-					<Show>Recent Invoices</Show>
-					<Search>
-						<Button>View All</Button>
-					</Search>
-				</Top>
-				<Wrap>
-					<Mid>
-						<Yellow></Yellow>
-					</Mid>
-					<Hold>
-						<Cash>
-							<Circle></Circle>
-							<Text>Paid</Text>
-						</Cash>
-						<Cash>
-							<Circle></Circle>
-							<Text>Unpaid</Text>
-						</Cash>
-						<Cash>
-							<Circle></Circle>
-							<Text>Overdue</Text>
-						</Cash>
-						<br />
-						<Cash>
-							<Circle></Circle>
-							<Text>Draft</Text>
-						</Cash>
-					</Hold>
-				</Wrap>
-				<Date>
-					<RecentData />
-				</Date>
-			</Card>
+			<h3>Staff Leaderboard</h3>
+			<Buttom>
+				<Head>
+					<Th>
+						<HoldHead>
+							Staff
+							<span>
+								<FaLongArrowAltUp color='lightgray' />
+								<FaLongArrowAltDown color='lightgray' />
+							</span>
+						</HoldHead>
+					</Th>
+					<Th>
+						<HoldHead>
+							Registered Date{" "}
+							<span>
+								<FaLongArrowAltUp color='lightgray' />
+								<FaLongArrowAltDown color='lightgray' />
+							</span>
+						</HoldHead>
+					</Th>
+
+					<Th>
+						<HoldHead>
+							Profit{" "}
+							<span>
+								<FaLongArrowAltUp color='lightgray' />
+								<FaLongArrowAltDown color='lightgray' />
+							</span>
+						</HoldHead>
+					</Th>
+					<Th>
+						<HoldHead>
+							Total Sales{" "}
+							<span>
+								<FaLongArrowAltUp color='lightgray' />
+								<FaLongArrowAltDown color='lightgray' />
+							</span>
+						</HoldHead>
+					</Th>
+					<Th>
+						<HoldHead>
+							Total Expense{" "}
+							<span>
+								<FaLongArrowAltUp color='lightgray' />
+								<FaLongArrowAltDown color='lightgray' />
+							</span>
+						</HoldHead>
+					</Th>
+				</Head>
+
+				{sales?.map((props) => (
+					<Body key={props._id}>
+						<Td>
+							<UserHold>
+								<span>
+									<Image src={props.image} />
+								</span>
+								{props.submittedBy}
+							</UserHold>
+						</Td>
+						<Td>{props.date}</Td>
+
+						<Td> ₦ {numeral(props.profit).format("0,0")} </Td>
+						<Td> ₦{numeral(props.totalSales).format("0,0")} </Td>
+						<Td> ₦{numeral(props.totalExpense).format("0,0")} </Td>
+					</Body>
+				))}
+			</Buttom>
 		</Container>
 	);
 };
 
 export default RecentComp;
 
-const Date = styled.div`
-	width: 90%;
-`;
-const Text = styled.div`
-	font-weight: 700;
-	color: #939396;
-`;
-const Circle = styled.div`
-	width: 20px;
-	height: 20px;
-	border-radius: 50%;
-	background-color: green;
-	margin-right: 10px;
-`;
-const Cash = styled.div`
-	display: flex;
-	margin: 5px;
-`;
-const Hold = styled.div`
-	width: 90%;
-	/* background-color: gold; */
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	flex-wrap: wrap;
-`;
-const Wrap = styled.div`
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-`;
-const Card = styled.div`
-	width: 470px;
-	border-radius: 10px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	background-color: white;
-	margin: 8px;
-	font-size: 12px;
-	@media (max-width: 1270px) {
-		width: 460px;
-	}
-	@media (max-width: 1250px) {
-		width: 400px;
-	}
-	@media (max-width: 900px) {
-		width: 100%;
-	}
-`;
-
 const Container = styled.div`
-	width: 98%;
-	min-height: 360px;
-	display: flex;
-	flex-wrap: wrap;
-
-	/* background-color: gold; */
-	@media (max-width: 768px) {
-		width: 100%;
-	}
-
-	justify-content: center;
-`;
-
-const Search = styled.div`
-	display: flex;
-	align-items: center;
-	border-radius: 5px;
-	margin-right: 10px;
-`;
-const Show = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	font-weight: 700;
-	font-size: 20px;
-	color: #697b90;
-	margin-left: 10px;
-`;
-const Top = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	/* padding: 10px 20px; */
-	width: 100%;
-	/* width: 95%; */
-	border-bottom: 1px solid gray;
-	margin-bottom: 20px;
-	/* box-shadow: ;v */
-	/* background-color: red; */
-`;
-const Button = styled.div`
-	border: 1px solid #7638ff;
-	outline: none;
-	/* padding: 10px 15px; */
-	padding: 10px 20px;
-	margin: 2px;
-	background-color: transparent;
-	color: #7638ff;
-	border-radius: 5px;
-	font-weight: 500;
-	cursor: pointer;
-	margin-bottom: 10px;
-`;
-const Mid = styled.div`
 	width: 90%;
-	height: 5px;
-	display: flex;
-	justify-content: space-between;
-	flex-direction: row;
-	border-radius: 10px;
-	margin-bottom: 15px;
+	overflow-x: scroll;
+	scroll-behavior: smooth;
+	scroll-snap-type: x mandatory;
+	background-color: white;
+
+	@media screen and (max-width: 700px) {
+		width: 94%;
+	}
 `;
-const Yellow = styled.div`
-	background-color: orange;
-	width: 60%;
-	height: 100%;
+const Image = styled.img`
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background-color: gold;
+	margin-right: 10px;
+	object-fit: cover;
+`;
+const Button = styled.button<{ bd: string; cl: string }>`
+	padding: 7px 20px;
+	background-color: #ece5e5;
+	border: ${({ bd }) => (bd ? "1px solid gray" : "0px")};
 	border-radius: 5px;
+	margin: 5px;
+	color: ${({ cl }) => (cl ? "#109f10" : "red")};
+	font-weight: 600;
+	cursor: pointer;
+	font-size: 12px;
+	font-family: Poppins;
+	span {
+		margin-left: 3px;
+	}
+`;
+const Hold = styled.div``;
+const HoldHead = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+`;
+const UserHold = styled.div`
+	display: flex;
+	align-items: center;
+
+	:hover {
+		color: blue;
+	}
+	cursor: pointer;
+`;
+const Td = styled.td`
+	padding: 10px 15px;
+	font-size: 12px;
+	font-weight: 400;
+	width: 250px;
+	border-left: 1px solid;
+	border-right: 1px solid;
+	border-color: rgba(0, 0, 0, 0.1);
+`;
+const Th = styled.th`
+	padding: 10px 10px;
+	background-color: #f8f9fa;
+	width: 250px;
+	/* #f8f9fa */
+	color: #1b2559;
+	font-size: 13px;
+	font-weight: 600;
+	text-align: start;
+	// border: 1px solid black;
+`;
+const Head = styled.tr`
+	border-bottom: 1px solid lightgray;
+	background-color: white;
+`;
+const Body = styled.tr`
+	border-bottom: 1px solid lightgray;
+	:hover {
+		background-color: lightgray;
+	}
+`;
+const Buttom = styled.table`
+	width: 78rem;
+	/* padding: 0px 20px; */
+
+	text-align: center;
+	border-collapse: collapse;
+	border-spacing: 0;
 `;
