@@ -14,6 +14,7 @@ interface iData {
   name?: string;
   staff?: string;
   createdAt?: string;
+  updatedAt?: string;
   hubToken?: string;
 }
 
@@ -21,9 +22,12 @@ interface iDataHub {
   _id?: string;
   HubName?: string;
   staffImage?: string;
+  updatedAt?: string;
   staffName?: string;
   date?: string;
   hub?: [];
+  createdAt?: string;
+  token?: string;
 }
 
 const url = "https://event-3p90.onrender.com";
@@ -31,7 +35,8 @@ const StaffBoard = () => {
   const user = useRecoilValue(userDecode);
   const [staffData, setStaffData] = useState({} as iData);
 
-  const [staffDataHub, setStaffDataHub] = useState([] as iDataHub[]);
+  const [staffDataHub, setStaffDataHub] = useState({} as iDataHub);
+  const [staffDataHubAll, setStaffDataHubAll] = useState([] as iDataHub[]);
 
   const getStaff = async () => {
     const newURL = `${url}/api/hub/${user._id}/hubstaff`;
@@ -41,15 +46,23 @@ const StaffBoard = () => {
   };
 
   const getStaffHub = async () => {
+    const newURL = `${url}/api/staff/${user._id}/gethubone`;
+    await axios.get(newURL).then((res) => {
+      setStaffDataHub(res.data.data.hub[0]);
+    });
+  };
+
+  const getStaffAllHub = async () => {
     const newURL = `${url}/api/staff/${user._id}/gethub`;
     await axios.get(newURL).then((res) => {
-      setStaffDataHub(res.data.data.hub);
+      setStaffDataHubAll(res.data.data.hub);
     });
   };
 
   useEffect(() => {
     getStaff();
     getStaffHub();
+    getStaffAllHub();
   }, []);
 
   return (
@@ -81,7 +94,7 @@ const StaffBoard = () => {
             </BoxOneIconHold>{" "}
             <br />
             <span>
-              Hub Assigned to: <strong> {staffData.name} Center</strong>
+              Hub Assigned to: <strong> {staffDataHub.HubName} Center</strong>
             </span>
             <div style={{ marginTop: "5px" }} />
             <span>
@@ -89,7 +102,7 @@ const StaffBoard = () => {
               <strong>
                 {" "}
                 {/* {staffData.staff} */}
-                {moment(staffData.createdAt).format("MMMM Do YYYY")}
+                {moment(staffDataHub.createdAt).format("MMMM Do YYYY")}
               </strong>
             </span>
             <div style={{ marginTop: "5px" }} />
@@ -105,14 +118,14 @@ const StaffBoard = () => {
             </BoxOneIconHold>{" "}
             <br />
             <span>
-              Assigned Hub Key: <strong> {staffData.hubToken} </strong>
+              Assigned Hub Key: <strong> {staffDataHub.token} </strong>
             </span>
           </Boxes>
         </RowOne>
         <Title>Today's Update</Title>
         <StaffCard>
           {/* {staffDataHub.hub.map()} */}
-          {staffDataHub?.map((props, i) => (
+          {staffDataHubAll?.map((props, i) => (
             <CardHold key={props._id}>
               <ImageBox src={props.staffImage} />
 
