@@ -76,15 +76,12 @@ const NewInvoice = () => {
   });
 
   const getStaff = async () => {
-    // const newURL = `${url}/api/hub/${user._id}/hubstaff`;
     const newURL = `${url}/api/staff/${user._id}/gethubone`;
 
     await axios.get(newURL).then((res) => {
       setStaffData(res.data.data.hub[0]);
     });
   };
-
-  console.log("HUB info: ", staffData);
 
   const updateSales = async () => {
     const newURL = `${url}/api/sales/${staffData.id}/${user._id}/create`;
@@ -142,9 +139,6 @@ const NewInvoice = () => {
       );
     }
   }, [expenseItemData, myItem]);
-  // console.log("expense: ", expense);
-  // console.log("sales: ", myItem);
-  // console.log("total: ", totalItem);
 
   return (
     <Container>

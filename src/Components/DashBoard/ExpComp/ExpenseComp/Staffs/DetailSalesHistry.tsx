@@ -21,9 +21,12 @@ interface iData {
   date: string;
   note: string;
   profit: number;
+  item: number;
+  cost: number;
+  id: number;
 }
 
-const SalesHistory = () => {
+const DetailSalesHistry = () => {
   const user = useRecoilValue(userDecode);
   const [sales, setSales] = useState([] as iData[]);
 
@@ -34,7 +37,8 @@ const SalesHistory = () => {
     });
   };
 
-  console.log(sales);
+  console.log("sales: ", sales);
+
   useEffect(() => {
     getAll();
   }, []);
@@ -45,7 +49,7 @@ const SalesHistory = () => {
         <Head>
           <Th>
             <HoldHead>
-              Center{" "}
+              s/n{" "}
               <span>
                 <FaLongArrowAltUp />
                 <FaLongArrowAltDown color="lightgray" />
@@ -54,7 +58,7 @@ const SalesHistory = () => {
           </Th>
           <Th>
             <HoldHead>
-              Staff{" "}
+              Items{" "}
               <span>
                 <FaLongArrowAltUp color="lightgray" />
                 <FaLongArrowAltDown color="lightgray" />
@@ -63,14 +67,14 @@ const SalesHistory = () => {
           </Th>
           <Th>
             <HoldHead>
-              Report Date{" "}
+              cost{" "}
               <span>
                 <FaLongArrowAltUp color="lightgray" />
                 <FaLongArrowAltDown color="lightgray" />
               </span>
             </HoldHead>
           </Th>
-          <Th>
+          {/* <Th>
             <HoldHead>
               Notes{" "}
               <span>
@@ -115,32 +119,27 @@ const SalesHistory = () => {
                 <FaLongArrowAltDown color="lightgray" />
               </span>
             </HoldHead>{" "}
-          </Th>
+          </Th> */}
         </Head>
 
         {sales?.map((props) => (
           <Body key={props._id}>
-            <Td>{props.hubName}</Td>
+            <Td>{props.id}</Td>
             <Td>
               <UserHold>
-                <span>
-                  <Image src={props.image} />
-                </span>
-                {props.submittedBy}
+                <span>{/* <Image src={props.image} /> */}</span>
+                {props.item}
               </UserHold>
             </Td>
-            <Td>{props.date}</Td>
-            <Td>{props.note}</Td>
+            <Td>{props.cost}</Td>
+            {/* <Td>{props.note}</Td>
             <Td> ₦ {numeral(props.profit).format("0,0")} </Td>
             <Td> ₦{numeral(props.totalSales).format("0,0")} </Td>
             <Td> ₦{numeral(props.totalExpense).format("0,0")} </Td>
 
             <Td>
               <Hold>
-                <NavLink
-                  to="/staff-board/dateil-history"
-                  style={{ textDecoration: "none" }}
-                >
+                <NavLink to="/editExpense" style={{ textDecoration: "none" }}>
                   <Button bd="fff" cl="ff">
                     <span>
                       <FaRegEdit />
@@ -149,7 +148,7 @@ const SalesHistory = () => {
                   </Button>
                 </NavLink>
               </Hold>
-            </Td>
+            </Td> */}
           </Body>
         ))}
       </Buttom>
@@ -157,7 +156,7 @@ const SalesHistory = () => {
   );
 };
 
-export default SalesHistory;
+export default DetailSalesHistry;
 
 const Container = styled.div`
   width: 100%;

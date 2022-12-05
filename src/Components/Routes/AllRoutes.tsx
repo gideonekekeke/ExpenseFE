@@ -9,6 +9,7 @@ import PrivateRoute from "../Global/PrivateRoute";
 import StaffBoard from "../DashBoard/ExpComp/ExpenseComp/Staffs/StaffBoard";
 import NewInvoice from "../DashBoard/ExpComp/ExpenseComp/Staffs/NewInvoice";
 import HistoryHolder from "../DashBoard/ExpComp/ExpenseComp/Staffs/HistoryHolder";
+import HubSalesHistory from "../DashBoard/ExpComp/ExpenseComp/Staffs/HubSalesHistory";
 
 const AllRoutes: React.FC = () => {
   let element = useRoutes([
@@ -65,6 +66,10 @@ const AllRoutes: React.FC = () => {
         {
           path: "history",
           element: <HistoryHolder />,
+        },
+        {
+          path: "dateil-history",
+          element: <HubSalesHistory />,
         },
       ],
     },
