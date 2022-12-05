@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
 					</FirstDiv>
 					<SecondDiv>
 						<Box>
-							<Title>Platforn</Title>
+							<Title>Platform</Title>
 							<Nav>Why expense-tracker</Nav>
 							<Nav>Espense Management</Nav>
 							<Nav>Automated Bookkeeping</Nav>
@@ -87,10 +87,13 @@ const Nav = styled.p`
 	font-size: 0.875rem;
 	line-height: 1.25rem;
 	margin-left: 3px;
+	/* transition: all 350ms; */
+
 	:hover {
 		cursor: pointer;
-		color: #ffda0a;
-		font-weight: 600;
+		color: #926efc;
+		/* font-weight: 600; */
+		transform: scale(1.02);
 	}
 `;
 
@@ -102,7 +105,7 @@ const Socials = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	color: #0707b8;
+	color: #926efc;
 	font-size: 1.3rem;
 	margin-top: 30px;
 `;

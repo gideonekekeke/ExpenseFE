@@ -3,16 +3,43 @@ import styled from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-const TrustedByComp = () => {
+const TrustedByComp: React.FC = () => {
 	const settings = {
 		dots: true,
 		infinite: true,
-		slidesToShow: 4,
+		slidesToShow: 5,
 		slidesToScroll: 1,
 		autoplay: true,
 		speed: 500,
 		// autoplaySpeed: 5000,
 		cssEase: "linear",
+
+		responsive: [
+			{
+				breakpoint: 1024,
+				settings: {
+					slidesToShow: 3,
+					slidesToScroll: 3,
+					infinite: true,
+					dots: true,
+				},
+			},
+			{
+				breakpoint: 600,
+				settings: {
+					slidesToShow: 2,
+					slidesToScroll: 2,
+					initialSlide: 2,
+				},
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					slidesToShow: 3,
+					slidesToScroll: 1,
+				},
+			},
+		],
 	};
 	return (
 		<Container id='company'>
@@ -21,12 +48,12 @@ const TrustedByComp = () => {
 
 			<Wrapper>
 				<Slider {...settings}>
-					<MainImage src='/assets/t1.svg' />
-					<MainImage src='/assets/t2.svg' />
-					<MainImage src='/assets/t3.svg' />
-					<MainImage src='/assets/t4.svg' />
-					<MainImage src='/assets/t2.svg' />
-					<MainImage src='/assets/t1.svg' />
+					<MainImage src='/assets/company/1.png' />
+					<MainImage src='/assets/company/2.svg' />
+					<MainImage src='/assets/company/3.svg' />
+					<MainImage src='/assets/company/4.svg' />
+					<MainImage src='/assets/company/5.svg' />
+					<MainImage src='/assets/company/8.png' />
 				</Slider>
 			</Wrapper>
 		</Container>
@@ -36,31 +63,13 @@ const TrustedByComp = () => {
 export default TrustedByComp;
 
 const MainImage = styled.img`
-	height: 20px;
-`;
-
-const ButtonHold = styled.div`
-	display: flex;
-	align-items: center;
-	margin-top: 20px;
-`;
-
-const Button = styled.div<{ wd: string; bd: string; bg: string; cl: string }>`
 	height: 40px;
-	width: ${(props) => props.wd};
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: ${(props) => props.bg};
-	border: ${(props) => props.bd};
-	border-radius: 50px;
-	margin-left: 20px;
-	color: ${(props) => props.cl};
-	cursor: pointer;
+	object-fit: contain;
+	color: white;
+	filter: grayscale(1);
 
-	:hover {
-		transform: scale(0.97);
-		transition: all 350ms;
+	@media screen and (max-width: 960px) {
+		height: 30px;
 	}
 `;
 

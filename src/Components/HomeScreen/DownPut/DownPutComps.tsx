@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import DownCard from "./DownCard";
 
-const DownPutComps = () => {
+const DownPutComps: React.FC = () => {
 	return (
 		<Cont id='resource'>
 			<br />
@@ -33,6 +33,8 @@ const Wrapper = styled.div`
 	display: flex;
 	margin-top: 50px;
 	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
 `;
 const Cont = styled.div`
 	/* height: 500px; */
@@ -51,7 +53,7 @@ const Cont = styled.div`
 		margin-bottom: 0px;
 		margin-top: 0px;
 
-		@media screen and (max-width: 960px) {
+		@media screen and (max-width: 600px) {
 			font-size: 20px;
 		}
 		/* margin-top: 30px; */

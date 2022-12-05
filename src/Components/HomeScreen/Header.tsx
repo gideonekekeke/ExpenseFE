@@ -1,10 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import { AiOutlineMenuFold } from "react-icons/ai";
+import { FiMenu } from "react-icons/fi";
+import { ImCancelCircle } from "react-icons/im";
 import SideBarComp from "./SideBar/SideBarComp";
+import { NavLink } from "react-router-dom";
 import { Link } from "react-scroll";
+import { user } from "../Global/GlobalState";
+import { useRecoilState } from "recoil";
 
 const Header = () => {
+	const [userData, setUserData] = useRecoilState(user);
 	const [sideShow, setSideShow] = React.useState(false);
 
 	const toggleSideBar = () => {
@@ -31,24 +36,60 @@ const Header = () => {
 				</Nav>
 			</Navigation>
 			<ButtonHold>
-				<Button bd='1px solid gray' bg='transparent'>
-					Sign In
-				</Button>
-				<Button bd='' bg='#926efc'>
-					Watch Video
-				</Button>
+				{userData !== null ? (
+					<Button
+						bd='1px solid gray'
+						bg='transparent'
+						onClick={() => {
+							setUserData(null);
+						}}>
+						Sign Out
+					</Button>
+				) : (
+					<DivDiv>
+						<NavLink
+							to='/auth'
+							style={{
+								textDecoration: "none",
+							}}>
+							<Button bd='1px solid gray' bg='transparent'>
+								Sign In
+							</Button>
+						</NavLink>
+
+						<NavLink
+							to='/auth'
+							style={{
+								textDecoration: "none",
+							}}>
+							<Button bd='' bg='#926efc'>
+								Register
+							</Button>
+						</NavLink>
+					</DivDiv>
+				)}
 			</ButtonHold>
+			{sideShow ? (
+				<Menu onClick={toggleSideBar}>
+					<ImCancelCircle />
+				</Menu>
+			) : (
+				<Menu onClick={toggleSideBar}>
+					<FiMenu />
+				</Menu>
+			)}
 
-			<Menu onClick={toggleSideBar}>
-				<AiOutlineMenuFold />
-			</Menu>
-
-			{sideShow ? <SideBarComp /> : null}
+			{sideShow ? <SideBarComp toggleSideBar={toggleSideBar} /> : null}
 		</Container>
 	);
 };
 
 export default Header;
+
+const DivDiv = styled.div`
+	display: flex;
+	align-items: center;
+`;
 
 const Menu = styled.div`
 	display: none;
@@ -81,11 +122,26 @@ const Nav = styled(Link)`
 	margin-right: 10px;
 	transition: all 350ms;
 
+	@media screen and (max-width: 960px) {
+		margin-right: 10px;
+		display: none;
+	}
+
 	:hover {
 		color: gray;
 		cursor: pointer;
 	}
 `;
+// const Nav = styled(Link)`
+// 	margin-left: 10px;
+// 	margin-right: 10px;
+// 	transition: all 350ms;
+
+//   :hover {
+//     color: gray;
+//     cursor: pointer;
+//   }
+// `;
 const ButtonHold = styled.div`
 	display: flex;
 	align-items: center;

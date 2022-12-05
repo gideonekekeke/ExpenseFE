@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { FaPlay } from "react-icons/fa";
+import axios from "axios";
 
-const HeroComp = () => {
+const HeroComp: React.FC = () => {
+	const justRead = async () => {
+		await axios.get("https://event-3p90.onrender.com").then((res) => {});
+	};
+	useEffect(() => {
+		justRead();
+	}, []);
+
 	return (
 		<Container id='platform'>
 			<Wrapper>
@@ -34,7 +42,7 @@ const HeroComp = () => {
 					</Rated>
 				</First>
 				<Second>
-					<HeroImage src='/assets/herobg.png' />
+					<HeroImage src='/assets/h2.png' />
 				</Second>
 			</Wrapper>
 		</Container>
@@ -56,12 +64,19 @@ const Wrapper = styled.div`
 	justify-content: center;
 	color: white;
 	padding-bottom: 50px;
-	flex-wrap: wrap;
+
+	@media screen and (max-width: 400px) {
+		/* padding-left: 30px; */
+		flex-direction: column-reverse;
+		align-items: center;
+		flex-wrap: wrap;
+	}
 
 	@media screen and (max-width: 960px) {
 		/* padding-left: 30px; */
 		flex-direction: column-reverse;
 		align-items: center;
+		flex-wrap: nowrap;
 	}
 `;
 
@@ -153,10 +168,9 @@ const Container = styled.div`
 	/* align-items: center; */
 	color: white;
 
-	flex-wrap: wrap;
-
 	@media screen and (max-width: 960px) {
 		/* padding-left: 10px; */
 		flex-direction: column-reverse;
+		flex-wrap: nowrap;
 	}
 `;
