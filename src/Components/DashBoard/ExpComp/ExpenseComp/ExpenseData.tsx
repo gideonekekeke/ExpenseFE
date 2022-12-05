@@ -20,6 +20,7 @@ interface iData {
 	hubName: string;
 	date: string;
 	profit: number;
+	note: string;
 }
 
 const ExpenseData = () => {
@@ -30,7 +31,7 @@ const ExpenseData = () => {
 		const newURL = `${url}/api/sales/${user._id}/record`;
 		await axios.patch(newURL).then((res) => {
 			setSales(res.data.data.salesRecord);
-			console.log("this is the salertgfd", sales);
+			console.log("this is the ", sales);
 		});
 	};
 	useEffect(() => {
@@ -128,7 +129,7 @@ const ExpenseData = () => {
 							</UserHold>
 						</Td>
 						<Td>{props.date}</Td>
-						<Td>This is now approved...</Td>
+						<Td>{props?.note}</Td>
 						<Td> ₦ {numeral(props.profit).format("0,0")} </Td>
 						<Td> ₦{numeral(props.totalSales).format("0,0")} </Td>
 						<Td> ₦{numeral(props.totalExpense).format("0,0")} </Td>
@@ -204,7 +205,10 @@ const Td = styled.td`
 	padding: 10px 15px;
 	font-size: 12px;
 	font-weight: 400;
-	width: 250px;
+	width: 200px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 	border-left: 1px solid;
 	border-right: 1px solid;
 	border-color: rgba(0, 0, 0, 0.1);

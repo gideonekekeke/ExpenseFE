@@ -71,6 +71,11 @@ const AllRoutes: React.FC = () => {
 					path: "history",
 					element: <HistoryHolder />,
 				},
+
+				{
+					path: "history/viewdetails/:id",
+					element: <EditExpense />,
+				},
 			],
 		},
 	]);

@@ -27,15 +27,14 @@ interface iData {
 const EditExpense: React.FC = () => {
 	const { id } = useParams();
 	const user = useRecoilValue(userDecode);
-	const [sales, setSales] = useState([] as iData[]);
-	const [data, setData] = useState([] as iData[]);
+	const [sales, setSales] = useState<iData[]>([]);
+	const [data, setData] = useState<iData>();
 
 	const getAll = async () => {
-		const newURL = `${url}/api/sales/${user._id}/record`;
+		const newURL = `${url}/api/sales/${id}/sales`;
 		await axios.patch(newURL).then((res) => {
-			setSales(res?.data?.data?.salesRecord[0]?.detail);
-			setData(res.data.data.salesRecord);
-			console.log("this is theghh ", data);
+			setSales(res?.data?.data?.detail);
+			setData(res?.data?.data);
 		});
 	};
 	useEffect(() => {
@@ -88,7 +87,7 @@ const EditExpense: React.FC = () => {
 
 				<Right>
 					<Div>Note:</Div>
-					{/* <Text value={data?.note} /> */}
+					<Text value={data?.note} />
 				</Right>
 				<br />
 
@@ -97,11 +96,11 @@ const EditExpense: React.FC = () => {
 				</p>
 				<span>
 					<span>Total Sale :</span>{" "}
-					<span style={{ fontWeight: "bold" }}>#14000</span>
+					<span style={{ fontWeight: "bold" }}>#{data?.totalSales}</span>
 				</span>
 				<span>
 					<span>Total Expense :</span>{" "}
-					<span style={{ fontWeight: "bold" }}>#14000</span>
+					<span style={{ fontWeight: "bold" }}># {data?.totalExpense}</span>
 				</span>
 			</Wrapper>
 		</Container>
