@@ -53,6 +53,7 @@ const DashHeader = () => {
 					</Left>
 					<Right>
 						<Icon8>Icon</Icon8>
+						<CodeHold>hello</CodeHold>
 						<Prof>
 							<Image
 								src={
@@ -152,6 +153,10 @@ const DashHeader = () => {
 
 export default DashHeader;
 
+const CodeHold = styled.div`
+	display: none;
+`;
+
 const Ad = styled.div`
 	margin-left: 10px;
 	display: flex;
@@ -174,6 +179,13 @@ const Prof = styled.div`
 	display: flex;
 	align-items: center;
 	margin-left: 20px;
+
+	&:hover ~ ${CodeHold} {
+		display: block;
+		height: 200px;
+		width: 300px;
+		background-color: black;
+	}
 `;
 const Icon9 = styled(BiChevronDown)`
 	font-weight: 500;
