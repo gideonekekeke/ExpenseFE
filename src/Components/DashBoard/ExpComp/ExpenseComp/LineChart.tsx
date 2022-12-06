@@ -214,7 +214,6 @@ const LineChart: React.FC = () => {
     getAll();
     getDays();
     createdArray();
-
     setRecordData([
       { day: "Monday", cost: monday },
       { day: "Tuesday", cost: tuesday },
@@ -227,28 +226,20 @@ const LineChart: React.FC = () => {
   }, []);
 
   console.log("showing: ", recordData);
-  console.log("showing: ", monday, tuesday);
   return (
     <Holder>
-      {/* <div>
-        <Container>
-          <Chart he="50%" />
-          <div>Monday</div>
-        </Container>
-      </div>
-
-      <div>
-        <Container>
-          <Chart he="80%" />
-          <div>Tuesday</div>
-        </Container>
-      </div> */}
-
       {recordData.map((props, i) => (
         <div key={i}>
           <Container>
-            <Chart he="60%" />
+            <div style={{ fontSize: "10px" }}>
+              ₦{Math.floor(props.cost * 0.001)}
+              <strong>K</strong>
+            </div>
+            <Chart he={`${Math.floor(props.cost * 0.001) * 0.8}%`} />
             <div style={{ fontSize: "10px" }}>{props.day}</div>
+            {/* <div style={{ fontSize: "10px" }}>
+              {Math.floor(props.cost * 0.001)}₦<strong>K</strong>
+            </div> */}
           </Container>
         </div>
       ))}
@@ -292,11 +283,13 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
-  width: 80px;
+  /* width: 80px; */
   height: 230px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  align-items: center;
+  margin: 0 7px;
 `;
 
 const Holder = styled.div`
