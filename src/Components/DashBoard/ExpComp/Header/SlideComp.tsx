@@ -53,9 +53,14 @@ const SlideComp: React.FC<Iprops> = ({ changeFalse }) => {
 								<Icon1 />
 								<Write>Dashboard</Write>
 							</Hold>
-							<Hold onClick={changeFalse} to='/staff-board/invoice'>
+							<Hold onClick={changeFalse} to='/staff-board/revenue'>
 								<Icon6 />
-								<Write>Invoice</Write>
+								<Write>Revenue Record</Write>
+							</Hold>
+
+							<Hold onClick={changeFalse} to='/staff-board/history'>
+								<Icon6 />
+								<Write>History Record</Write>
 							</Hold>
 							<Hold
 								onClick={() => {

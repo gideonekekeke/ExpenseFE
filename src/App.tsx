@@ -11,7 +11,7 @@ function App() {
 		<div>
 			<GlobalStyle />
 			<AuthRoutes />
-			{userData !== null ? <DashHeader /> : null}
+			{userData ? <DashHeader /> : null}
 			<MainRoute />
 		</div>
 	);
