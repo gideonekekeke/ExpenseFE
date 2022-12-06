@@ -44,6 +44,14 @@ const LineChart: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const [sales, setSales] = useState([] as iData[]);
 
+  const [monday, setMonday] = useState<number>(0);
+  const [tuesday, setTuesday] = useState<number>(0);
+  const [wednesday, setWednesday] = useState<number>(0);
+  const [thursday, setThursday] = useState<number>(0);
+  const [friday, setFriday] = useState<number>(0);
+  const [saturday, setSaturday] = useState<number>(0);
+  const [sunday, setSunday] = useState<number>(0);
+
   const getAll = async () => {
     const newURL = `${url}/api/sales/${user._id}/record`;
     await axios.patch(newURL).then((res) => {
@@ -53,8 +61,9 @@ const LineChart: React.FC = () => {
   const getDays = () => {
     setData(Object.keys(groupBy(sales, "dated")));
   };
+
   const getAllDated = async () => {
-    let data = Object.values(groupBy(sales, "dated")).flat();
+    let data = Object.values(groupBy(sales, "dated"));
     setSalesDated(
       data
         .map((el: any) => el.profit)
@@ -64,29 +73,146 @@ const LineChart: React.FC = () => {
     );
   };
 
+  const mondayValue = () => {
+    setMonday(
+      groupBy(sales, "dated")
+        .Monday // .flat()
+        .map((props: any) => {
+          return props.profit;
+        })
+        .reduce((a: number, b: number) => {
+          return a + b;
+        })
+    );
+  };
+
+  const tuesdayValue = () => {
+    setTuesday(
+      groupBy(sales, "dated")
+        .Tuesday // .flat()
+        .map((props: any) => {
+          return props.profit;
+        })
+        .reduce((a: number, b: number) => {
+          return a + b;
+        })
+    );
+  };
+
+  const wednesdayValue = () => {
+    setWednesday(
+      groupBy(sales, "dated")
+        .Wednesday // .flat()
+        .map((props: any) => {
+          return props.profit;
+        })
+        .reduce((a: number, b: number) => {
+          return a + b;
+        })
+    );
+  };
+
+  const thursdayValue = () => {
+    setThursday(
+      groupBy(sales, "dated")
+        .Thursday // .flat()
+        .map((props: any) => {
+          return props.profit;
+        })
+        .reduce((a: number, b: number) => {
+          return a + b;
+        })
+    );
+  };
+  const fridayValue = () => {
+    setFriday(
+      groupBy(sales, "dated")
+        .Friday // .flat()
+        .map((props: any) => {
+          return props.profit;
+        })
+        .reduce((a: number, b: number) => {
+          return a + b;
+        })
+    );
+  };
+  const saturdayValue = () => {
+    setSaturday(
+      groupBy(sales, "dated")
+        .Saturday // .flat()
+        .map((props: any) => {
+          return props.profit;
+        })
+        .reduce((a: number, b: number) => {
+          return a + b;
+        })
+    );
+  };
+  const sundayValue = () => {
+    setSunday(
+      groupBy(sales, "dated")
+        .Sunday // .flat()
+        .map((props: any) => {
+          return props.profit;
+        })
+        .reduce((a: number, b: number) => {
+          return a + b;
+        })
+    );
+  };
+
+  const createdArray = () => {};
+
+  console.log("show: ", monday, tuesday);
   useEffect(() => {
     getAllDated();
     getAll();
     getDays();
+
+    mondayValue();
+    tuesdayValue();
+    // if (
+    //   groupBy(sales, "dated").Monday ||
+    //   groupBy(sales, "dated").Tuesday ||
+    //   groupBy(sales, "dated").Wednesday ||
+    //   groupBy(sales, "dated").Friday ||
+    //   groupBy(sales, "dated").Saturday ||
+    //   groupBy(sales, "dated").Sunday
+    // ) {
+
+    //   // wednesdayValue();
+    //   // thursdayValue();
+    //   // fridayValue();
+    //   // saturdayValue();
+    //   // sundayValue();
+    // } else {
+    //   return;
+    // }
   }, []);
   return (
     <Holder>
-      {/* {salesDated.map((props, i) => (
-        <div key={i}>
-          <Container>
-            <Chart he="70%" />
-          </Container>
-        </div>
-      ))} */}
+      <div>
+        <Container>
+          <Chart he="50%" />
+          <div>Monday</div>
+        </Container>
+      </div>
 
-      {data.map((props, i) => (
+      <div>
+        <Container>
+          <Chart he="80%" />
+          <div>Tuesday</div>
+        </Container>
+      </div>
+
+      {/* {data.map((props, i) => (
         <div key={i}>
           <Container>
-            <Chart he="70%" />
+            <Chart he={`$`} />
             <div>{props}</div>
           </Container>
         </div>
-      ))}
+      ))} */}
     </Holder>
   );
 };
