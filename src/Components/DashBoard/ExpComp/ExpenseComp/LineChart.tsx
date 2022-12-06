@@ -52,6 +52,8 @@ const LineChart: React.FC = () => {
   const [saturday, setSaturday] = useState<number>(0);
   const [sunday, setSunday] = useState<number>(0);
 
+  const [recordData, setRecordData] = useState([] as any[]);
+
   const getAll = async () => {
     const newURL = `${url}/api/sales/${user._id}/record`;
     await axios.patch(newURL).then((res) => {
@@ -163,59 +165,84 @@ const LineChart: React.FC = () => {
     );
   };
 
-  const createdArray = () => {};
+  const createdArray = () => {
+    if (groupBy(sales, "dated").Monday) {
+      mondayValue();
+    } else {
+      return;
+    }
 
-  console.log("show: ", monday, tuesday);
+    if (groupBy(sales, "dated").Tuesday) {
+      tuesdayValue();
+    } else {
+      return;
+    }
+
+    if (groupBy(sales, "dated").Wednesday) {
+      wednesdayValue();
+    } else {
+      return;
+    }
+
+    if (groupBy(sales, "dated").Thursday) {
+      thursdayValue();
+    } else {
+      return;
+    }
+
+    if (groupBy(sales, "dated").Friday) {
+      fridayValue();
+    } else {
+      return;
+    }
+
+    if (groupBy(sales, "dated").Saturday) {
+      saturdayValue();
+    } else {
+      return;
+    }
+
+    if (groupBy(sales, "dated").Sunday) {
+      sundayValue();
+    } else {
+      return;
+    }
+  };
+
   useEffect(() => {
     getAllDated();
     getAll();
     getDays();
-
-    // mondayValue();
-    // tuesdayValue();
-
-    // if (
-    //   groupBy(sales, "dated").Monday ||
-    //   groupBy(sales, "dated").Tuesday ||
-    //   groupBy(sales, "dated").Wednesday ||
-    //   groupBy(sales, "dated").Friday ||
-    //   groupBy(sales, "dated").Saturday ||
-    //   groupBy(sales, "dated").Sunday
-    // ) {
-
-    //   // wednesdayValue();
-    //   // thursdayValue();
-    //   // fridayValue();
-    //   // saturdayValue();
-    //   // sundayValue();
-    // } else {
-    //   return;
-    // }
+    createdArray();
+    setRecordData([
+      { day: "Monday", cost: monday },
+      { day: "Tuesday", cost: tuesday },
+      { day: "Wednesday", cost: wednesday },
+      { day: "Thursday", cost: thursday },
+      { day: "Friday", cost: friday },
+      { day: "Saturday", cost: saturday },
+      { day: "Sunday", cost: sunday },
+    ]);
   }, []);
+
+  console.log("showing: ", recordData);
   return (
     <Holder>
-      <div>
-        <Container>
-          <Chart he="50%" />
-          <div>Monday</div>
-        </Container>
-      </div>
-
-      <div>
-        <Container>
-          <Chart he="80%" />
-          <div>Tuesday</div>
-        </Container>
-      </div>
-
-      {/* {data.map((props, i) => (
+      {recordData.map((props, i) => (
         <div key={i}>
           <Container>
-            <Chart he={`$`} />
-            <div>{props}</div>
+            <div style={{ fontSize: "10px" }}>
+              ₦{Math.floor(props.cost * 0.001)}
+              <strong>K</strong>
+            </div>
+            <Chart he={`${Math.floor(props.cost * 0.001) * 0.8}%`} />
+            <div style={{ fontSize: "10px" }}>{props.day}</div>
+            {/* <div style={{ fontSize: "10px" }}>
+              {Math.floor(props.cost * 0.001)}₦<strong>K</strong>
+            </div> */}
           </Container>
         </div>
-      ))} */}
+      ))}
     </Holder>
   );
 };
@@ -256,11 +283,13 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
-  width: 80px;
+  /* width: 80px; */
   height: 230px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  align-items: center;
+  margin: 0 7px;
 `;
 
 const Holder = styled.div`
