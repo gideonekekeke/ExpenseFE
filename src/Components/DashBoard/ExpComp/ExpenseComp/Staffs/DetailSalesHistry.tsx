@@ -5,8 +5,8 @@ import { BsTrash } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import axios from "axios";
-import { userDecode } from "../../../Global/GlobalState";
 import { useRecoilValue } from "recoil";
+import { userDecode } from "../../../../Global/GlobalState";
 import numeral from "numeral";
 
 const url = "https://event-3p90.onrender.com";
@@ -19,85 +19,46 @@ interface iData {
   totalSales: number;
   hubName: string;
   date: string;
+  note: string;
   profit: number;
-  map(): () => {};
-  // flat(): void
+  item: number;
+  cost: number;
+  id: number;
 }
 
-interface iData2 {
-  _id?: string;
-  name?: string;
-  staff?: string;
-  createdAt?: string;
-  updatedAt?: string;
-  hubToken?: string;
-}
-
-const RecentComp = () => {
-  const sortedSales = (props: any) => {
-    return (a: any, b: any) => {
-      if (a[props] > b[props]) {
-        return -1;
-      } else {
-        return 0;
-      }
-    };
-  };
-
-  const groupBy = (props: any, items: any) => {
-    return props.reduce((data: any, item: any) => {
-      (data[item[items]] = data[item[items]] || []).push(item);
-      return data;
-    }, {});
-  };
-
-  const [sales, setSales] = useState([] as iData[]);
-  const [salesDated, setSalesDated] = useState([] as any[]);
-
+const DetailSalesHistry = () => {
   const user = useRecoilValue(userDecode);
-  const [staffData, setStaffData] = useState({} as iData2);
+  const [sales, setSales] = useState([] as iData[]);
 
   const getAll = async () => {
-    const newURL = `${url}/api/sales/${user._id}/record`;
+    const newURL = `${url}/api/sales/${user._id}/saleshistory`;
     await axios.patch(newURL).then((res) => {
-      setSales(res.data.data.salesRecord.sort(sortedSales("profit")));
+      setSales(res.data.data.salesRecord);
     });
   };
 
-  const getAllDated = async () => {
-    let data = Object.values(groupBy(sales, "dated")).flat();
-    // setSalesDated(Object.values(groupBy(sales, "dated")));
-    setSalesDated(
-      data
-        .map((el: any) => el.profit)
-        .reduce((a: number, b: number) => {
-          return a + b;
-        })
-    );
-  };
-
-  const getStaff = async () => {
-    const newURL = `${url}/api/hub/${user._id}/hubstaff`;
-    await axios.get(newURL).then((res) => {
-      setStaffData(res.data.data);
-      console.log("getting all ", staffData);
-    });
-  };
+  console.log("sales: ", sales);
 
   useEffect(() => {
     getAll();
-    getStaff();
-    getAllDated();
   }, []);
 
   return (
     <Container>
-      <h3>Staff Leading Sales Record</h3>
       <Buttom>
         <Head>
           <Th>
             <HoldHead>
-              Staff
+              s/n{" "}
+              <span>
+                <FaLongArrowAltUp />
+                <FaLongArrowAltDown color="lightgray" />
+              </span>
+            </HoldHead>
+          </Th>
+          <Th>
+            <HoldHead>
+              Items{" "}
               <span>
                 <FaLongArrowAltUp color="lightgray" />
                 <FaLongArrowAltDown color="lightgray" />
@@ -106,14 +67,22 @@ const RecentComp = () => {
           </Th>
           <Th>
             <HoldHead>
-              Registered Date{" "}
+              cost{" "}
               <span>
                 <FaLongArrowAltUp color="lightgray" />
                 <FaLongArrowAltDown color="lightgray" />
               </span>
             </HoldHead>
           </Th>
-
+          {/* <Th>
+            <HoldHead>
+              Notes{" "}
+              <span>
+                <FaLongArrowAltUp color="lightgray" />
+                <FaLongArrowAltDown color="lightgray" />
+              </span>
+            </HoldHead>
+          </Th>
           <Th>
             <HoldHead>
               Profit{" "}
@@ -141,23 +110,45 @@ const RecentComp = () => {
               </span>
             </HoldHead>
           </Th>
+
+          <Th>
+            <HoldHead>
+              Action{" "}
+              <span>
+                <FaLongArrowAltUp color="lightgray" />
+                <FaLongArrowAltDown color="lightgray" />
+              </span>
+            </HoldHead>{" "}
+          </Th> */}
         </Head>
 
         {sales?.map((props) => (
           <Body key={props._id}>
+            <Td>{props.id}</Td>
             <Td>
               <UserHold>
-                <span>
-                  <Image src={props.image} />
-                </span>
-                {props.submittedBy}
+                <span>{/* <Image src={props.image} /> */}</span>
+                {props.item}
               </UserHold>
             </Td>
-            <Td>{props.date}</Td>
-
+            <Td>{props.cost}</Td>
+            {/* <Td>{props.note}</Td>
             <Td> ₦ {numeral(props.profit).format("0,0")} </Td>
             <Td> ₦{numeral(props.totalSales).format("0,0")} </Td>
             <Td> ₦{numeral(props.totalExpense).format("0,0")} </Td>
+
+            <Td>
+              <Hold>
+                <NavLink to="/editExpense" style={{ textDecoration: "none" }}>
+                  <Button bd="fff" cl="ff">
+                    <span>
+                      <FaRegEdit />
+                    </span>
+                    View
+                  </Button>
+                </NavLink>
+              </Hold>
+            </Td> */}
           </Body>
         ))}
       </Buttom>
@@ -165,19 +156,15 @@ const RecentComp = () => {
   );
 };
 
-export default RecentComp;
+export default DetailSalesHistry;
 
 const Container = styled.div`
-  width: 90%;
+  width: 100%;
   overflow-x: scroll;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
-  background-color: white;
-
-  @media screen and (max-width: 700px) {
-    width: 94%;
-  }
 `;
+
 const Image = styled.img`
   width: 40px;
   height: 40px;
@@ -238,7 +225,6 @@ const Th = styled.th`
 `;
 const Head = styled.tr`
   border-bottom: 1px solid lightgray;
-  background-color: white;
 `;
 const Body = styled.tr`
   border-bottom: 1px solid lightgray;
