@@ -2,11 +2,15 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-scroll";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { user, userDecode } from "../../Global/GlobalState";
 interface Iprops {
 	toggleSideBar: () => void;
 }
 
 const SideBarComp: React.FC<Iprops> = ({ toggleSideBar }) => {
+	const [userData, setUserData] = useRecoilState(user);
+	const users = useRecoilValue(userDecode);
 	return (
 		<SideDiv>
 			<Wrapper>
@@ -55,16 +59,34 @@ const SideBarComp: React.FC<Iprops> = ({ toggleSideBar }) => {
 					to='company'>
 					<Nav>Company</Nav>
 				</NavHold>
-				<Naving onClick={toggleSideBar} to='/auth'>
-					<Nav>Sign In</Nav>
-				</Naving>
-				<Naving onClick={toggleSideBar} to='/auth'>
-					<Nav>
-						<Button bd='none' bg='#926efc'>
-							Get Started
-						</Button>
-					</Nav>
-				</Naving>
+				{userData && users?.status ? (
+					<>
+						<Naving
+							onClick={() => {
+								setUserData(null);
+							}}
+							to='/'>
+							<Nav>
+								<Button bd='none' bg='#926efc'>
+									Log Out
+								</Button>
+							</Nav>
+						</Naving>
+					</>
+				) : (
+					<>
+						<Naving onClick={toggleSideBar} to='/auth'>
+							<Nav>Sign In</Nav>
+						</Naving>
+						<Naving onClick={toggleSideBar} to='/auth'>
+							<Nav>
+								<Button bd='none' bg='#926efc'>
+									Get Started
+								</Button>
+							</Nav>
+						</Naving>
+					</>
+				)}
 			</Wrapper>
 		</SideDiv>
 	);

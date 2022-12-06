@@ -5,12 +5,13 @@ import { ImCancelCircle } from "react-icons/im";
 import SideBarComp from "./SideBar/SideBarComp";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-scroll";
-import { user } from "../Global/GlobalState";
-import { useRecoilState } from "recoil";
+import { user, userDecode } from "../Global/GlobalState";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 const Header = () => {
 	const [userData, setUserData] = useRecoilState(user);
 	const [sideShow, setSideShow] = React.useState(false);
+	const users = useRecoilValue(userDecode);
 
 	const toggleSideBar = () => {
 		setSideShow(!sideShow);
@@ -36,7 +37,7 @@ const Header = () => {
 				</Nav>
 			</Navigation>
 			<ButtonHold>
-				{userData !== null ? (
+				{userData && users?.status ? (
 					<Button
 						bd='1px solid gray'
 						bg='transparent'
