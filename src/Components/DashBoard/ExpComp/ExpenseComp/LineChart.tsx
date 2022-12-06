@@ -124,6 +124,7 @@ const LineChart: React.FC = () => {
         })
     );
   };
+
   const fridayValue = () => {
     setFriday(
       groupBy(sales, "dated")
@@ -136,6 +137,7 @@ const LineChart: React.FC = () => {
         })
     );
   };
+
   const saturdayValue = () => {
     setSaturday(
       groupBy(sales, "dated")
@@ -169,8 +171,9 @@ const LineChart: React.FC = () => {
     getAll();
     getDays();
 
-    mondayValue();
-    tuesdayValue();
+    // mondayValue();
+    // tuesdayValue();
+
     // if (
     //   groupBy(sales, "dated").Monday ||
     //   groupBy(sales, "dated").Tuesday ||
