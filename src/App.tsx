@@ -3,15 +3,16 @@ import AuthRoutes from "./Components/Routes/AuthRoute";
 import MainRoute from "./Components/Routes/MainRoute";
 import DashHeader from "./Components/DashBoard/ExpComp/Header/Header";
 import { useRecoilValue } from "recoil";
-import { user } from "./Components/Global/GlobalState";
+import { user, userDecode } from "./Components/Global/GlobalState";
 
 function App() {
 	const userData = useRecoilValue(user);
+	const users = useRecoilValue(userDecode);
 	return (
 		<div>
 			<GlobalStyle />
 			<AuthRoutes />
-			{userData ? <DashHeader /> : null}
+			{userData && users?.status ? <DashHeader /> : null}
 			<MainRoute />
 		</div>
 	);
