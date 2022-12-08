@@ -28,16 +28,16 @@ const DonutChart = () => {
 	const user = useRecoilValue(userDecode);
 	const [sales, setSales] = useState([] as iData[]);
 	const [prof, setProf] = useState<number>(0);
+	const [sal, setSal] = useState<number>(0);
+	const [exp, setExp] = useState<number>(0);
 
 	const getAll = async () => {
 		const newURL = `${url}/api/sales/${user._id}/record`;
 		await axios.patch(newURL).then((res) => {
 			setSales(res.data.data.salesRecord);
-			// console.log("this is   ", sales);
 		});
 	};
 
-	let hold: number[] = [];
 	const getProfits = () => {
 		setProf(
 			sales
@@ -49,20 +49,42 @@ const DonutChart = () => {
 				}, 0),
 		);
 	};
-
-	console.log("this is dfgdg gfdgdvdf", prof);
+	const getExpense = () => {
+		setExp(
+			sales
+				.map((el) => {
+					return el.totalExpense;
+				})
+				.reduce((a: number, b: number) => {
+					return a + b;
+				}, 0),
+		);
+	};
+	const getSales = () => {
+		setSal(
+			sales
+				.map((el) => {
+					return el.totalSales;
+				})
+				.reduce((a: number, b: number) => {
+					return a + b;
+				}, 0),
+		);
+	};
 
 	useEffect(() => {
 		getAll();
 		getProfits();
-	}, []);
+		getExpense();
+		getSales();
+	}, [sal, prof, exp, sales]);
 
 	const data = {
 		labels: ["Sales", "Expenses", "Profit"],
 		datasets: [
 			{
-				label: "# of Votes",
-				data: [12, 19, 3],
+				label: "total",
+				data: [prof, sal, exp],
 				backgroundColor: [
 					"rgba(255, 99, 132, 0.2)",
 					"rgba(54, 162, 235, 0.2)",
@@ -93,7 +115,11 @@ const DonutChart = () => {
 				justifyContent: "center",
 				alignItems: "center",
 			}}>
-			<Doughnut data={data} />
+			{data?.datasets[0]?.data?.length >= 1 ? (
+				<Doughnut data={data} />
+			) : (
+				<div>No data to load yet </div>
+			)}
 		</div>
 	);
 };
