@@ -88,6 +88,7 @@ const StaffSignUp: React.FC = () => {
 					showConfirmButton: false,
 					timer: 3500,
 				}).then(() => {
+					console.log(error);
 					setLoading(false);
 				});
 			});
