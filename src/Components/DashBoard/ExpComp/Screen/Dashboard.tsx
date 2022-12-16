@@ -1,12 +1,81 @@
-import React from "react";
+import axios from "axios";
+import numeral from "numeral";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { userDecode } from "../../../Global/GlobalState";
 import ChartComp from "./ChartComp";
 import RecentComp from "./RecentComp";
 
+const url = "https://event-3p90.onrender.com";
+
+interface iData {
+	_id: string;
+	submittedBy: string;
+	image: string;
+	totalExpense: number;
+	totalSales: number;
+	hubName: string;
+	date: string;
+	profit: number;
+	note: string;
+}
+
 const Dashboard: React.FC = () => {
 	const users = useRecoilValue(userDecode);
+
+	const [sales, setSales] = useState([] as iData[]);
+	const [prof, setProf] = useState<number>(0);
+	const [sal, setSal] = useState<number>(0);
+	const [exp, setExp] = useState<number>(0);
+
+	const getAll = async () => {
+		const newURL = `${url}/api/sales/${users._id}/record`;
+		await axios.patch(newURL).then((res) => {
+			setSales(res.data.data.salesRecord);
+		});
+	};
+
+	const getProfits = () => {
+		setProf(
+			sales
+				.map((el) => {
+					return el.profit;
+				})
+				.reduce((a: number, b: number) => {
+					return a + b;
+				}, 0),
+		);
+	};
+	const getExpense = () => {
+		setExp(
+			sales
+				.map((el) => {
+					return el.totalExpense;
+				})
+				.reduce((a: number, b: number) => {
+					return a + b;
+				}, 0),
+		);
+	};
+	const getSales = () => {
+		setSal(
+			sales
+				.map((el) => {
+					return el.totalSales;
+				})
+				.reduce((a: number, b: number) => {
+					return a + b;
+				}, 0),
+		);
+	};
+
+	useEffect(() => {
+		getAll();
+		getProfits();
+		getExpense();
+		getSales();
+	}, [sal, prof, exp, sales]);
 	return (
 		<div>
 			<Container>
@@ -23,7 +92,7 @@ const Dashboard: React.FC = () => {
 									</Ups>
 
 									<Down>
-										<h1 style={{ color: "gold" }}>3.7%</h1> since last week
+										<h1 style={{ color: "gold" }}>Company secret token</h1>
 									</Down>
 								</Boxhold>
 							</Box>
@@ -32,7 +101,7 @@ const Dashboard: React.FC = () => {
 									<Ups>
 										<Texxt>
 											<H1>Expense</H1>
-											<Number>#94,0000</Number>
+											<Number>#{numeral(exp).format("0,0")}</Number>
 										</Texxt>
 									</Ups>
 
@@ -46,7 +115,7 @@ const Dashboard: React.FC = () => {
 									<Upd>
 										<Texxt>
 											<H1>Sales</H1>
-											<Number>#95,0000</Number>
+											<Number>#{numeral(sal).format("0,0")}</Number>
 										</Texxt>
 									</Upd>
 
@@ -59,8 +128,8 @@ const Dashboard: React.FC = () => {
 								<Boxhold>
 									<Upg>
 										<Texxt>
-											<H1>Lost</H1>
-											<Number>#78,0000</Number>
+											<H1>Profit</H1>
+											<Number>#{numeral(prof).format("0,0")}</Number>
 										</Texxt>
 									</Upg>
 
@@ -215,12 +284,12 @@ const Down = styled.div`
 		font-weight: bold;
 	}
 	h2 {
-		color: red;
+		color: purple;
 		font-size: 13px;
 		font-weight: bold;
 	}
 	h3 {
-		color: purple;
+		color: red;
 		font-size: 13px;
 		font-weight: bold;
 	}
