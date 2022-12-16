@@ -213,7 +213,7 @@ const LineChart: React.FC = () => {
 		getAllDated();
 		getAll();
 		getDays();
-		console.log("this is for tuesday", tuesday);
+
 		createdArray();
 		setRecordData([
 			{ day: "Monday", cost: monday },
@@ -228,7 +228,7 @@ const LineChart: React.FC = () => {
 
 	return (
 		<Holder>
-			{recordData.map((props, i) => (
+			{/* {recordData.map((props, i) => (
 				<div key={i}>
 					<Container>
 						<div style={{ fontSize: "10px" }}>
@@ -237,12 +237,68 @@ const LineChart: React.FC = () => {
 						</div>
 						<Chart he={`${Math.floor(props.cost * 0.001) * 0.8}%`} />
 						<div style={{ fontSize: "10px" }}>{props.day}</div>
-						{/* <div style={{ fontSize: "10px" }}>
-              {Math.floor(props.cost * 0.001)}₦<strong>K</strong>
-            </div> */}
 					</Container>
 				</div>
-			))}
+			))} */}
+
+			<div style={{ display: "flex" }}>
+				<Container>
+					<div style={{ fontSize: "10px" }}>
+						₦30
+						<strong>K</strong>
+					</div>
+					<Chart he='50%' />
+					<div style={{ fontSize: "10px" }}>Modnday</div>
+				</Container>
+				<Container>
+					<div style={{ fontSize: "10px" }}>
+						₦70
+						<strong>K</strong>
+					</div>
+					<Chart he='70%' />
+					<div style={{ fontSize: "10px" }}>Tuesday</div>
+				</Container>
+				<Container>
+					<div style={{ fontSize: "10px" }}>
+						₦55
+						<strong>K</strong>
+					</div>
+					<Chart he='60%' />
+					<div style={{ fontSize: "10px" }}>Wednessday</div>
+				</Container>
+				<Container>
+					<div style={{ fontSize: "10px" }}>
+						₦120
+						<strong>K</strong>
+					</div>
+					<Chart he='80%' />
+					<div style={{ fontSize: "10px" }}>Thursday</div>
+				</Container>
+				<Container>
+					<div style={{ fontSize: "10px" }}>
+						₦25
+						<strong>K</strong>
+					</div>
+					<Chart he='35%' />
+					<div style={{ fontSize: "10px" }}>Friday</div>
+				</Container>
+				<Container>
+					<div style={{ fontSize: "10px" }}>
+						₦90
+						<strong>K</strong>
+					</div>
+					<Chart he='75%' />
+					<div style={{ fontSize: "10px" }}>Saturday</div>
+				</Container>
+				<Container>
+					<div style={{ fontSize: "10px" }}>
+						₦15
+						<strong>K</strong>
+					</div>
+					<Chart he='20%' />
+					<div style={{ fontSize: "10px" }}>Sunday</div>
+				</Container>
+			</div>
 		</Holder>
 	);
 };
